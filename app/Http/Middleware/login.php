@@ -49,7 +49,7 @@ class login
         }else{
 
             // return response(view('/welcome'));
-            return redirect()->route('registerpage') // Redirect to register route
+            return redirect()->route('register') // Redirect to register route
       ->withErrors([ // Pass error message to flash session
         'email' => 'not registered',
       ]);

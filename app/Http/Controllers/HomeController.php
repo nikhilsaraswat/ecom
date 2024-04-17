@@ -23,13 +23,6 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        $user = Auth::user()->isadmin;
-        if($user){
-                        
-        return view('/adminpanel/home');}
-        else{
-            return view('/userpanel/home');
-        }
+    {return view('/userpanel/home');
     }
 }

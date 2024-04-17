@@ -17,42 +17,33 @@ class RegistrationController extends Controller
         $this->middleware('guest');
     }
 
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
-
     public function register(Request $request){
         return view('auth/register');
     }
 
     public function create(Request $request){
-        $data = [
-            'name' => $request -> name,
-            'email' => $request -> email,
-            'password' => $request -> password,
-         ];
-       if(validator(
-            $data
-        )->fails()){
-            
-            return redirect()->route('register') // Redirect to register route
-      ->withErrors([ // Pass error message to flash session
-        'email' => 'validation failed']);
 
+        $VALIDATOR= Validator::make($request->all(),[
+            'name'=>['required','string','max:255'],
+      
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+       
+            'password'=>['required','string','min:8','confirmed'],
+        ]);
+
+        if($VALIDATOR->fails()){
+            return redirect()->route('register') // Redirect to register route
+            ->withErrors($VALIDATOR->errors()) // Pass all validation errors
+        ->withInput();
         }else{
             User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
+                'name' => $request->name,
+                'email' => $request->email,
                 'isadmin' => 0,
-                'password' => Hash::make($data['password']),
+                'password' => Hash::make($request->password),
             ]);
             return redirect()->route('home');
-        };
+        }
         // creates($data);
     }
 
