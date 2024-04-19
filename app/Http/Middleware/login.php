@@ -27,7 +27,7 @@ class login
             // checking user credentials and maintaining session
             $credentials = $request->only('email', 'password');
             if (Auth::attempt($credentials)) {
-                if(Auth::user()->isadmin==1){
+                if(Auth::user()->isadmin==1 || Auth::user()->isadmin==2){
                     return redirect()->route('adminpanel'); //admin panel
                 }
                 else{
@@ -39,9 +39,10 @@ class login
                 //     ->withSuccess('Signed in');
             }
             else{
+                
                 return redirect()->route('loginpage') // Redirect to login route
       ->withErrors([ // Pass error message to flash session
-        'email' => 'The provided email or password is incorrect.',
+        'password' => 'The provided password is incorrect.',
       ]);
             }
             // return $next($request);

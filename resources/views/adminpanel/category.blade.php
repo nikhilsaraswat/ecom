@@ -14,14 +14,22 @@
   <div class="row" style="height:75vh">
   @include("../components/sidebar")
     <div class="col-md-10">
-      <div class="border-bottom px-4 py-2 font-bold text-xl" >Users List</div>
+    <div class="border-bottom px-4 py-2 font-bold text-xl d-flex justify-content-between align-items-center">
+    <span>Category List</span>
+    <div>
+        <a href="{{ route('admincategorypanelcreation') }}" >
+            <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i> Create
+</button>
+        </a>
+    </div>
+</div>
+
       <div style="overflow-y: auto; height:65vh;"> 
       <table class="table table-striped" class="h-100">
         <thead>
           <tr>
-            <th scope="col">Profile</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
+            <th scope="col">Image</th>
+            <th scope="col">Category</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -35,15 +43,14 @@
                             class="rounded-circle img-thumbnail"
                             style="width: 40px; height: 40px;"
                         ></td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
+                <td>{{ $user->category }}</td>
                 <td>
     <div class="card-body">
-    <form method="post" action="/admin/userdelete/{{ $user->id }}" class="d-inline">
+    <form method="post" action="/admin/categorydelete/{{ $user->id }}" class="d-inline">
             @csrf
-            <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+            <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>Delete</button>
         </form>
-        <a href="/admin/{{ $user->id }}/useredit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
+        <a href="/admin/{{ $user->id }}/categoryedit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>Edit</a>
 </div>
                   <!-- <div>
   <form method="post" action="/admin/userdelete/{{ $user->id }}">

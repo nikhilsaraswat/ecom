@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form action="{{ route('adduser') }}" method="POST">
+                    <form action="{{ route('adduser') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-3">
@@ -61,14 +61,46 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                        <label for="image" class="col-md-4 col-form-label text-md-end">Profile Image</label>
+
+                        <div class="col-md-6">
+                            <div class="custom-file">
+                            <input type="file" class="custom-file-input @error('image') is-invalid @enderror" id="image" name="image" accept="image/png, image/jpeg">
+                            <label class="custom-file-label" for="image">Choose image...</label>
+                            @error('image')
+                                <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                            </div>
+                            <img id="image-preview" class="img-thumbnail mt-2 d-none" style="max-width: 150px;" alt="Preview">
+                        </div>
+                        </div>           
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
+                                    <!-- C:\xampp\htdocs\New folder\ecombynik\storage\app\public\images\1713424768.png storage\app\public\images\1713424768.png-->
                                     {{ __('Register') }}
                                 </button>
                             </div>
                         </div>
                     </form>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+                    <script>
+$(document).ready(function() {
+  $("#image").on("change", function() {
+    $('#image-preview').removeClass('d-none');
+    document.getElementById('image-preview').style.display = "block"
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      $('#image-preview').attr('src', e.target.result);
+    };
+    reader.readAsDataURL(this.files[0]);
+  });
+});
+</script>
                 </div>
             </div>
         </div>

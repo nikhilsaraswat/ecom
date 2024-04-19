@@ -3,23 +3,9 @@
 @section('content')
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2 bg-dark text-white p-4">
-      <ul class="nav flex-column nav-pills mb-auto">
-        <li class="nav-item">
-          <a href="/admin" class="nav-link active px-3 py-2 rounded">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a href="/admin/user" class="nav-link px-3 py-2 rounded">User List</a>
-        </li>
-        <li class="nav-item">
-          <a href="/admin/product" class="nav-link px-3 py-2 rounded">Product Management</a>
-        </li>
-        <li class="nav-item">
-          <a href="/admin/category" class="nav-link px-3 py-2 rounded">Category Management</a>
-        </li>
-      </ul>
-    </div>
 
+
+  <!-- @include('../components/sidebar') -->
     <div class="col-md-10">
       <div class="border-bottom px-4 py-2 font-bold text-xl">User Update</div>
       <form method="POST" class="flex flex-column items-center space-y-2 p-3 bg-white" action="/admin/useredit/{{ $userlistfromdatabase->id }}">

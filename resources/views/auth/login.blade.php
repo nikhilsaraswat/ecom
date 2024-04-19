@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('success'))
+  <div class="alert alert-success" id="flash-message">
+    {{ session('success') }}
+  </div>
+  @elseif (session('failure'))
+  <div class="alert alert-danger" id="flash-message">
+    {{ session('failure') }}
+  </div>
+@endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -65,6 +74,14 @@
                             </div>
                         </div>
                     </form>
+                    <script>
+                    window.onload = function() {  // Use window.onload instead of $(document).ready()
+                        setTimeout(function() {
+                            $("#flash-message").fadeOut();
+                        }, 5000); // 5 seconds in milliseconds
+                    };
+                    </script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
                 </div>
             </div>
         </div>

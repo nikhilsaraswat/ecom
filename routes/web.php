@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\AdminPanelController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\loginpg;
 
@@ -22,6 +24,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'App\Http\Middleware\checkadm
     Route::post('/userdelete/{id}', [AdminPanelController::class, 'userdelete'])->name('adminpaneluserdelete');
     Route::get('/{id}/useredit',[AdminPanelController::class,'useredit'])->name('adminpaneluseredit');
     Route::put('/useredit/{id}',[AdminPanelController::class,'userupdate'])->name('adminpaneluserupdate');
+    Route::get('/category', [CategoryController::class, 'categorypage'])->name('admincategorypanel');
+    Route::get('/category/create', [CategoryController::class, 'categorycreationpage'])->name('admincategorypanelcreation');
+    Route::post('/category/create/post',[CategoryController::class,'categorycreate'])->name('admincategorypanelcreationpost');
+    Route::post('/categorydelete/{id}', [CategoryController::class, 'categorydelete'])->name('adminpanelcategorydelete');
+    Route::get('/{id}/categoryedit',[CategoryController::class,'categoryedit'])->name('adminpanelcategoryedit');
+    Route::put('/categoryedit/{id}',[CategoryController::class,'categoryupdate'])->name('adminpanelcategoryupdate');
+    Route::get('/product', [ProductController::class,'productpage'])->name('adminproductpanel');
   });
 // to showcase custome user i am using this new route
 Route::post('/adduser',[RegistrationController::class,'create'])->name('adduser');

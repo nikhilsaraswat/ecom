@@ -20,10 +20,10 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
-<body>
-    <div id="app d-flex h-100vh position-relative px-4 py-2">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
+<body >
+    <div id="app d-flex position-relative px-4 py-2">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" >
+            <div class="container-fluid" style="margin-left: 5vw; margin-right: 5vw;">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'ecombynik') }}
                 </a>
@@ -53,10 +53,26 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
+                        <li class="nav-item dropdown">
+                        <a
+                            id="navbarDropdown"
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            v-pre
+                        >
+                        <img
+                            src="{{ asset('storage/images/' . Auth::user()->image) }}"
+                            alt="Example Image"
+                            class="rounded-circle img-thumbnail"
+                            style="width: 50px; height: 50px;"
+                        >
+                            {{ Auth::user()->name }}
+                        </a>
+
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
