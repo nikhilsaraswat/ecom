@@ -34,36 +34,27 @@
           </tr>
         </thead>
         <tbody >
-          @forelse ($dataofuser as $user)
-            @if($user->isadmin==0)
+          @forelse ($dataofcategory as $data)
+          
               <tr>
                 <td><img
-                            src="{{ asset('storage/images/' . $user->image) }}"
+                            src="{{ asset('storage/images/' . $data->image) }}"
                             alt="Example Image"
                             class="rounded-circle img-thumbnail"
                             style="width: 40px; height: 40px;"
                         ></td>
-                <td>{{ $user->category }}</td>
+                <td>{{ $data->category }}</td>
                 <td>
     <div class="card-body">
-    <form method="post" action="/admin/categorydelete/{{ $user->id }}" class="d-inline">
+    <form method="post" action="/admin/categorydelete/{{ $data->id }}" class="d-inline">
             @csrf
             <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>Delete</button>
         </form>
-        <a href="/admin/{{ $user->id }}/categoryedit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>Edit</a>
+        <a href="/admin/{{ $data->id }}/categoryedit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>Edit</a>
 </div>
-                  <!-- <div>
-  <form method="post" action="/admin/userdelete/{{ $user->id }}">
-    @csrf
-      <i type="submit" class=" btn btn-sm btn-danger fas fa-trash-alt"></i>
-  </form>
-  <a href="/admin/{{ $user->id }}/useredit" class="btn btn-sm btn-primary">
-    <i class="fas fa-edit"></i>
-  </a></div> -->
 </td>
 
               </tr>
-            @endif
           @empty
             <tr>
               <td colspan="3" class="text-center">No users found!</td>
@@ -72,7 +63,7 @@
         </tbody>
       </table>
 </div>
-      <!-- <div id="myChart" style="max-width:700px; height:400px;"></div> -->
+
       <script src="../../js/adminpanel/forchartusinggoogle.js"></script>
       <script>
                     window.onload = function() {  // Use window.onload instead of $(document).ready()

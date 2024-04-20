@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+// use App\Models\Product;
 use App\Models\adminProductCategory;
+use App\Models\subCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -11,12 +13,11 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function categorypage(Request $request){
-        $dataofuser = adminProductCategory::all();
-        return view('adminpanel/category', compact('dataofuser'));
+        $dataofcategory = adminProductCategory::all();
+return view('adminpanel/category', compact('dataofcategory'));
     }
     public function categorycreationpage(Request $request){
-        $dataofuser = adminProductCategory::all();
-        return view('adminpanel/category/categorycreate', compact('dataofuser'));
+        return view('adminpanel/category/categorycreate');
     }
     public function categorycreate(Request $request){
         $image = $request->file('image');
@@ -39,16 +40,18 @@ class CategoryController extends Controller
          }else{
             if($image==null){
                 $imageName= "1713428191.png";
-            }else{
+            }
+            else{
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            Storage::disk('local')->put('/public/images/' . $imageName, File::get($image));}
+            Storage::disk('local')->put('/public/images/' . $imageName, File::get($image));
+        }
 
             adminProductCategory::create([
                       'category' => $request->name,
                       'image' => $imageName,
                   ]);
-                   return redirect()->route('admincategorypanelcreation')
-           ->with('success', 'user added successfully!');
+                   return redirect()->route('admincategorypanel')
+           ->with('success', 'category added successfully!');
             }
     }
 
@@ -91,13 +94,20 @@ class CategoryController extends Controller
     
     public function categorydelete(Request $request, $id){
         $category_to_be_deleted = adminProductCategory::find($id);
-        if($category_to_be_deleted){
-            $category_to_be_deleted->delete();
-            return redirect()->route('admincategorypanel')
-            ->with('success', 'Record deleted successfully!');
+        $subcategory = $category_to_be_deleted->category;
+        $subcategories_to_be_deleted = subCategory::where("category_name",$subcategory)->value('subcategory');
+        if($subcategories_to_be_deleted ){
+            return redirect()->route('admincategorypanel')->with('failure', 'cannot be deleted contains sub-categories.');
         }else{
-           return redirect()->route('admincategorypanel')->with('failure', 'Record deleted failed. No user found.');
-           ;
+            if($category_to_be_deleted){
+                     $category_to_be_deleted->delete();
+                     return redirect()->route('admincategorypanel')
+                     ->with('success', 'Record deleted successfully!');
+                 }else{
+                    return redirect()->route('admincategorypanel')->with('failure', 'Record deleted failed. No user found.');
+                    ;
+                 }
         }
+        // 
     }
 }

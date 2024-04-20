@@ -15,9 +15,9 @@
   @include("../components/sidebar")
     <div class="col-md-10">
     <div class="border-bottom px-4 py-2 font-bold text-xl d-flex justify-content-between align-items-center">
-    <span>Product List</span>
+    <span>Category List</span>
     <div>
-        <a href="{{ route('adminproductpanelcreation') }}" >
+        <a href="{{ route('adminsubcategorypanelcreation') }}" >
             <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i> Create
 </button>
         </a>
@@ -29,39 +29,35 @@
         <thead>
           <tr>
             <th scope="col">Image</th>
-            <th scope="col">Product</th>
+            <th scope="col">Sub-Category</th>
             <th scope="col">Category</th>
-            <th scope="col">Actual Price</th>
-            <th scope="col">Discounted Price</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody >
-          @forelse ($dataofuser as $user)
-            @if($user->isadmin==0)
+          @forelse ($dataofsubcategory as $subcategoryinfo)
+          
               <tr>
                 <td><img
-                            src="{{ asset('storage/images/' . $user->image) }}"
+                            src="{{ asset('storage/images/' . $subcategoryinfo->image) }}"
                             alt="Example Image"
                             class="rounded-circle img-thumbnail"
                             style="width: 40px; height: 40px;"
                         ></td>
-                <td>{{ $user->product }}</td>
-                <td>{{ $user->category }}</td>
-                <td>{{ $user->actualPrice }}</td>
-                <td>{{ $user->valueafterdiscount }}</td>
+                
+                <td>{{ $subcategoryinfo->subcategory }}</td>
+                <td>{{ $subcategoryinfo->category_name }}</td>
                 <td>
     <div class="card-body">
-    <form method="post" action="/admin/productdelete/{{ $user->id }}" class="d-inline">
+    <form method="post" action="/admin/subcategorydelete/{{ $subcategoryinfo->id }}" class="d-inline">
             @csrf
             <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>Delete</button>
         </form>
-        <a href="/admin/{{ $user->id }}/productedit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>Edit</a>
+        <a href="/admin/{{ $subcategoryinfo->id }}/subcategoryedit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>Edit</a>
 </div>
 </td>
 
               </tr>
-            @endif
           @empty
             <tr>
               <td colspan="3" class="text-center">No users found!</td>
@@ -70,7 +66,7 @@
         </tbody>
       </table>
 </div>
-      <!-- <div id="myChart" style="max-width:700px; height:400px;"></div> -->
+
       <script src="../../js/adminpanel/forchartusinggoogle.js"></script>
       <script>
                     window.onload = function() {  // Use window.onload instead of $(document).ready()

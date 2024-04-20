@@ -1,0 +1,62 @@
+                <!-- <td><img
+                            src="{{ asset('storage/images/' . $user->image) }}"
+                            alt="Example Image"
+                            class="rounded-circle img-thumbnail"
+                            style="width: 40px; height: 40px;"
+                        ></td> -->
+                                       <!-- <td>{{$user->sub_category}} -->
+
+
+                                        <form method="post" action="/admin/categorydelete/{{ $user->id }}" class="d-inline">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>Delete</button>
+                                        </form>
+                                        ->id
+
+
+
+
+                                                          <!-- <div>
+  <form method="post" action="/admin/userdelete/{{ $user->id }}">
+    @csrf
+      <i type="submit" class=" btn btn-sm btn-danger fas fa-trash-alt"></i>
+  </form>
+  <a href="/admin/{{ $user->id }}/useredit" class="btn btn-sm btn-primary">
+    <i class="fas fa-edit"></i>
+  </a></div> -->
+
+
+
+        <!-- <div id="myChart" style="max-width:700px; height:400px;"></div> -->
+
+        @forelse ($categories as $catimage => $categories)
+        @foreach($dataofcategory as $categoryinfo)
+                @if($categoryinfo -> category == $categories)
+
+
+
+
+
+
+
+
+
+
+
+
+                <td class="d-flex flex-column">
+                    @foreach($dataofcategory as $categoryinfo)
+                    @if($categoryinfo -> category == $categories)
+                   
+                <img
+                                src="{{ asset('storage/images/' . $categoryinfo->image) }}"
+                                alt="Example Image"
+                                class="rounded-circle img-thumbnail"
+                                style="width: 40px; height: 40px;"
+                            >
+                {{ $categoryinfo->sub_category }}
+                @endif()
+                    @endforeach
+                    </td>
+
+

@@ -14,11 +14,12 @@ class checkadmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->isadmin == 1) {
+        if(Auth::user()!=null){
+        if (Auth::user()->isadmin == 1 ) {
             return $next($request);
           }
         else{
             return redirect()->route('home');
-        }
+        }}else{}
     }
 }
