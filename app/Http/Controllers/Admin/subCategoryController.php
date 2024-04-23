@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\subCategory;
 use App\Models\adminProductCategory;
+use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -66,6 +67,11 @@ return view('adminpanel/subcategory', compact('dataofsubcategory'));
     }
     public function subcategorydelete(Request $request, $id){
         $subcategory_to_be_deleted = subCategory::find($id);
+        $subcategory = $subcategory_to_be_deleted->subcategory;
+        $product = Product::where("subcategory_name",$subcategory)->value('product');
+        if($product ){
+            return redirect()->route('adminsubcategorypanel')->with('failure', 'cannot be deleted contains products.');
+        }else{
         if($subcategory_to_be_deleted){
             $subcategory_to_be_deleted->delete();
             return redirect()->route('adminsubcategorypanel')
@@ -73,7 +79,7 @@ return view('adminpanel/subcategory', compact('dataofsubcategory'));
         }else{
            return redirect()->route('adminsubcategorypanel')->with('failure', 'Record deleted failed. No user found.');
            ;
-        }
+        }}
     }
     public function subcategoryupdate(Request $request, $id){
             if($request->input('image')!=null){

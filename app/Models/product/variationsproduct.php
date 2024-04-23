@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\product;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class variationsproduct extends Model
 {
     use HasFactory;
     protected $fillable = [

@@ -37,6 +37,67 @@
 
 
 
+                <!DOCTYPE HTML>
+<html>
+ 
+<head>
+    <title>
+        How to create an image element
+        dynamically using JavaScript ?
+    </title>
+</head>
+ 
+<body id="body" style="text-align:center;">
+ 
+    <h1 style="color:green;">
+        GeeksforGeeks
+    </h1>
+ 
+    <h3>
+        Click on the button to add image element
+    </h3>
+ 
+    <button onclick="GFG_Fun()">
+        click here
+    </button>
+ 
+    <h2 id="result" style="color:green;"></h2>
+ 
+    <script>
+        let res = document.getElementById('result');
+ 
+        function GFG_Fun() {
+            let img = document.createElement('img');
+            img.src =
+'https://media.geeksforgeeks.org/wp-content/uploads/20190529122828/bs21.png';
+            document.getElementById('body').appendChild(img);
+            res.innerHTML = "Image Element Added.";
+        }
+    </script>
+</body>
+ 
+</html>
+
+
+
+
+
+
+
+dd($request->product);
+        // dd($request->slug);
+        // dd($request->category);
+        // dd($request->subcategory);
+        // dd($request->productshortdescription);
+        // dd($request->description);
+        // dd($request->discount);
+        // dd($request->sellingPrice);
+        // dd($request->actualPrice);
+        // dd($request->percentage);
+
+
+
+
 
 
 
@@ -60,3 +121,22 @@
                     </td>
 
 
+                    $categories = adminProductCategory::pluck('category','cat_image')->unique()->toArray();
+
+
+
+
+
+                    // $("#images").on("change", function() {
+  //   for(i=0;i<=this.files.length;i++){
+  //     var reader = new FileReader();
+  //     reader.onload = function(e) {
+  //     let img = document.createElement('img');
+  //           img.src = e.target.result;
+  //           img.id = "abc"+i;
+  //           document.getElementById('filesviewer').appendChild(img);
+  //   };
+  //     reader.readAsDataURL(this.files[i]);
+  //   }
+    
+  // });

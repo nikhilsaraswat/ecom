@@ -7,6 +7,8 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\product\productvariables;
+use App\Http\Controllers\Admin\product\productvariableswithproductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\loginpg;
 use App\Http\Controllers\Admin\subCategoryController;
@@ -44,7 +46,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'App\Http\Middleware\checkadm
     Route::post('/subcategorydelete/{id}', [subCategoryController::class, 'subcategorydelete'])->name('adminpanelsubcategorydelete');
     Route::get('/{id}/subcategoryedit',[subCategoryController::class,'subcategoryedit'])->name('adminpanelsubcategoryedit');
     Route::put('/subcategoryedit/{id}',[subCategoryController::class,'subcategoryupdate'])->name('adminpanelsubcategoryupdate');
-
+    Route::get('/product/variations', [productvariables::class,'variablespage'])->name('adminvariationpanel');
+    Route::get('/product/variations/create', [productvariables::class,'variablespagecreate'])->name('adminvariationpanelcreate');
+    Route::post('/product/variations/create/post',[productvariables::class,'variablescreate'])->name('adminvariationpanelcreationpost');
+    Route::post('/variabledelete/{id}',[productvariables::class,'variabledelete'])->name('adminpanelvariationdelete');
+    Route::get('/{id}/variableedit',[productvariables::class,'variableedit'])->name('adminpanelvariableedit');
+    Route::put('/variableedit/{id}',[productvariables::class,'variableupdate'])->name('adminpanelvariableupdate');
+    Route::get('/product/variationsproduct', [productvariableswithproductController::class,'variablespagewithproduct'])->name('adminvariationproductpanel');
+    Route::get('/product/variationsproduct/create', [productvariableswithproductController::class,'variablespagecreatewithproduct'])->name('adminvariationproductpanelcreate');
+    Route::post('/product/variationsproduct/create/post',[productvariableswithproductController::class,'variablescreatewithproduct'])->name('adminvariationproductpanelcreationpost');
+    Route::post('/variableproductdelete/{id}',[productvariableswithproductController::class,'variabledeletewithproduct'])->name('adminpanelvariationproductdelete');
+    Route::get('/{id}/variableproductedit',[productvariableswithproductController::class,'variableeditwithproduct'])->name('adminpanelvariableproductedit');
+    Route::put('/variableproductedit/{id}',[productvariableswithproductController::class,'variableupdatewithproduct'])->name('adminpanelvariableproductupdate');
   });
 // to showcase custome user i am using this new route
 Route::post('/adduser',[RegistrationController::class,'create'])->name('adduser');
