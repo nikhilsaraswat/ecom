@@ -10,13 +10,13 @@
     {{ session('failure') }}
   </div>
 @endif
-<div class="container-fluid">
-  <div class="row" style="height:75vh">
+<div class="container-fluid" style="width:100vw;">
+  <div class="row" style="height:75vh;">
   @include("../components/sidebar")
     <div class="col-md-10">
       <div class="border-bottom px-4 py-2 font-bold text-xl" >Users List</div>
-      <div style="overflow-y: auto; height:65vh;"> 
-      <table class="table table-striped" class="h-100">
+      <div style="height:65vh;"> 
+      <table id="myTable" class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Profile</th>
@@ -25,7 +25,7 @@
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody >
+        <tbody>
           @forelse ($dataofuser as $user)
             @if($user->isadmin==0)
               <tr>
@@ -45,14 +45,6 @@
         </form>
         <a href="/admin/{{ $user->id }}/useredit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
 </div>
-                  <!-- <div>
-  <form method="post" action="/admin/userdelete/{{ $user->id }}">
-    @csrf
-      <i type="submit" class=" btn btn-sm btn-danger fas fa-trash-alt"></i>
-  </form>
-  <a href="/admin/{{ $user->id }}/useredit" class="btn btn-sm btn-primary">
-    <i class="fas fa-edit"></i>
-  </a></div> -->
 </td>
 
               </tr>
@@ -66,6 +58,9 @@
       </table>
 </div>
       <!-- <div id="myChart" style="max-width:700px; height:400px;"></div> -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+                <script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+                <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.min.css">
       <script src="../../js/adminpanel/forchartusinggoogle.js"></script>
       <script>
                     window.onload = function() {  // Use window.onload instead of $(document).ready()
@@ -73,8 +68,8 @@
                             $("#flash-message").fadeOut();
                         }, 5000); // 5 seconds in milliseconds
                     };
+                    let table = new DataTable('#myTable');
                     </script>
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     </div>
   </div>
 </div>

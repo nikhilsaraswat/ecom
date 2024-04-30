@@ -17,7 +17,7 @@
     <div class="border-bottom px-4 py-2 font-bold text-xl d-flex justify-content-between align-items-center">
     <span>Product List</span>
     <div>
-        <a href="{{ route('adminproductpanelcreation') }}" >
+        <a href="{{ route('adminvariationproductpanelcreate') }}" >
             <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-plus-circle"></i> Create
 </button>
         </a>
@@ -25,7 +25,7 @@
 </div>
 
       <div style="overflow-y: auto; height:65vh;"> 
-      <table class="table table-striped" class="h-100">
+      <table id="myTable" class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Thumbnail Image</th>
@@ -76,11 +76,11 @@
                 <td>{{ $user->sellingPrice }}</td>
                 <td>
     <div class="card-body">
-    <form method="post" action="/admin/productdelete/{{ $user->id }}" class="d-inline">
+    <form method="post" action="/admin/variableproductdelete/{{ $user->id }}" class="d-inline">
             @csrf
             <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i>Delete</button>
         </form>
-        <a href="/admin/{{ $user->id }}/productedit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>Edit</a>
+        <a href="/admin/{{ $user->id }}/variableproductedit" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i>Edit</a>
 </div>
 </td>
 
@@ -103,6 +103,11 @@
                     };
                     </script>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+                <script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+                <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.min.css">
+                <script>
+                  let table = new DataTable('#myTable');
+                  </script>
     </div>
   </div>
 </div>

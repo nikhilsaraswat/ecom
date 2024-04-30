@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\adminProductCategory;
 use App\Models\subCategory;
+use App\Models\product\variable;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use File;
@@ -19,15 +20,17 @@ class ProductController extends Controller
 
     public function productpage(Request $request){
         $dataofuser = Product::all();
+        $dataofvariables = variable::all();
         return view('adminpanel/product', compact('dataofuser'));
     }
 
     public function productcreationpage(Request $request){
+        $dataofvariables = variable::all();
         $categoryList = adminProductCategory::pluck('category','id')->unique(); // Assuming this returns the list of categories
         $subcategoryList = subCategory::all();
         // Now $idNameList contains only id and name pairs
         
-        return view('adminpanel/product/productcreate', compact('categoryList','subcategoryList'));
+        return view('adminpanel/product/productcreate', compact('categoryList','subcategoryList','dataofvariables'));
     }
 
     public function productupdate(Request $request, $id ){
@@ -182,6 +185,13 @@ class ProductController extends Controller
             $inputsubcategory = 0;
             $subcategoryname = "";
         }
+        $slugValue = $request->slug;
+        $slugShouldBeUnique = Product::where('slug',$slugValue )->value('slug');
+        if(
+            $slugShouldBeUnique != $slugValue
+        ){
+            
+        
         $image = $request->file('image');
         if(
             $request->producttype == "Simple"
@@ -194,7 +204,6 @@ class ProductController extends Controller
                     'actualPrice' => ['required','integer','min:1','digits_between:1,1000000'],
                     'discount' => ['required','integer','min:1','digits_between:1,1000000'],
                     'sellingPrice' => ['required','integer','min:1','digits_between:1,1000000'],
-                    'tags'=>['required','string','max:255'],
                 ]);
         }else{
                 $VALIDATOR= Validator::make($request->all(),[
@@ -203,7 +212,6 @@ class ProductController extends Controller
                     'actualPrice' => ['required','integer','min:1','digits_between:1,1000000'],
                     'discount' => ['required','integer','min:1','digits_between:1,1000000'],
                     'sellingPrice' => ['required','integer','min:1','digits_between:1,1000000'],
-                    'tags'=>['required','string','max:255'],
                 ]);
         }
         
@@ -213,19 +221,16 @@ class ProductController extends Controller
                 'product'=>['required','string','max:255'],
                 'slug'=>['required','string','max:255'],
                 'image' => 'required|image|mimes:jpeg,png,gif,jpg|max:2048',
-                'tags'=>['required','string','max:255'],
             ]);
     }else{
             $VALIDATOR= Validator::make($request->all(),[
                 'product'=>['required','string','max:255'],
                 'slug'=>['required','string','max:255'],
-                'tags'=>['required','string','max:255'],
             ]);
     }}
          if($VALIDATOR->fails()){
              return redirect()->route('adminproductpanelcreation')  //Redirect to register route
-             ->withErrors($VALIDATOR->errors())  //Pass all validation errors
-         ->withInput();
+             ->withErrors($VALIDATOR->errors());  //Pass all validation errors;
          }else{
             if($image==null){
                 $imageName= "1713428191.png";
@@ -271,16 +276,20 @@ class ProductController extends Controller
                 'description'=> $description,
                 'image' => $imageName,
                 'images' => $data['imagess'],
-                'discount'=> $request->discount||0,
-                'sellingPrice'=> $request->sellingPrice||0,
-                'actualPrice'=> $request->actualPrice||0,
-                'percentage'=> $request->percentage||0,
+                'discount'=> $request->discount??0,
+                'sellingPrice'=> $request->sellingPrice??0,
+                'actualPrice'=> $request->actualPrice??0,
+                'percentage'=> $request->percentage??0,
                 'tag' => json_encode($tag),
                 'producttype' => $request->producttype,
                   ]);
                    return redirect()->route('adminproductpanel')
            ->with('success', 'product added successfully!');
             }
+        }else{
+            return redirect()->route('adminproductpanelcreation')  //Redirect to register route
+         ->with('failure', "not unique slug please make it unique");
+        }
     }
 
     public function productdelete(Request $request, $id){
@@ -294,4 +303,14 @@ class ProductController extends Controller
            ;
         }
     }
+// ajax requests
+    public function fetchDataOfAttributes(){
+        $dataofvariables = variable::pluck('attribute');
+
+        // Return the data as JSON
+        return response()->json($dataofvariables);
+    }
+    //ajax requests end
 }
+
+

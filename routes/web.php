@@ -13,17 +13,16 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\loginpg;
 use App\Http\Controllers\Admin\subCategoryController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('base');
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('base');
 
 // Auth::routes();
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/register', [RegistrationController::class, 'register'])->name('register');
-
+Route::get('/', [AdminPanelController::class, 'login'])->name('adminpanel');
 Route::group(['prefix' => 'admin', 'middleware' => 'App\Http\Middleware\checkadmin'], function () {
-    Route::get('/', [AdminPanelController::class, 'login'])->name('adminpanel');
+  Route::get('/', [AdminPanelController::class, 'login'])->name('adminpanel');
     Route::post('/userdelete/{id}', [AdminPanelController::class, 'userdelete'])->name('adminpaneluserdelete');
     Route::get('/{id}/useredit',[AdminPanelController::class,'useredit'])->name('adminpaneluseredit');
     Route::put('/useredit/{id}',[AdminPanelController::class,'userupdate'])->name('adminpaneluserupdate');
@@ -53,14 +52,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'App\Http\Middleware\checkadm
     Route::get('/{id}/variableedit',[productvariables::class,'variableedit'])->name('adminpanelvariableedit');
     Route::put('/variableedit/{id}',[productvariables::class,'variableupdate'])->name('adminpanelvariableupdate');
     Route::get('/product/variationsproduct', [productvariableswithproductController::class,'variablespagewithproduct'])->name('adminvariationproductpanel');
-    Route::get('/product/variationsproduct/create', [productvariableswithproductController::class,'variablespagecreatewithproduct'])->name('adminvariationproductpanelcreate');
-    Route::post('/product/variationsproduct/create/post',[productvariableswithproductController::class,'variablescreatewithproduct'])->name('adminvariationproductpanelcreationpost');
-    Route::post('/variableproductdelete/{id}',[productvariableswithproductController::class,'variabledeletewithproduct'])->name('adminpanelvariationproductdelete');
-    Route::get('/{id}/variableproductedit',[productvariableswithproductController::class,'variableeditwithproduct'])->name('adminpanelvariableproductedit');
-    Route::put('/variableproductedit/{id}',[productvariableswithproductController::class,'variableupdatewithproduct'])->name('adminpanelvariableproductupdate');
+    Route::get('/product/variationsproduct/create', [productvariableswithproductController::class,'variables_page_create_with_product'])->name('adminvariationproductpanelcreate');
+    Route::post('/product/variationsproduct/create/post',[productvariableswithproductController::class,'variables_create_with_product'])->name('adminvariationproductpanelcreationpost');
+    Route::post('/variableproductdelete/{id}',[productvariableswithproductController::class,'variable_delete_with_product'])->name('adminpanelvariationproductdelete');
+    Route::get('/{id}/variableproductedit',[productvariableswithproductController::class,'variable_edit_with_product'])->name('adminpanelvariableproductedit');
+    Route::put('/variableproductedit/{id}',[productvariableswithproductController::class,'variable_update_with_product'])->name('adminpanelvariableproductupdate');
+    Route::get('/retrieve-data-for-attributes',[ProductController::class,'fetchDataOfAttributes'])->name('forajaxfetchingdata');
   });
 // to showcase custome user i am using this new route
-Route::post('/adduser',[RegistrationController::class,'create'])->name('adduser');
+Route::post('/adduser',[RegistrationController::class,'create'])->name('adduser'); 
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/login', [loginpg::class, 'login'])->name('loginpage');

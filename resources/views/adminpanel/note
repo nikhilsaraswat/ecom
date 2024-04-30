@@ -140,3 +140,474 @@ dd($request->product);
   //   }
     
   // });
+
+
+
+
+  <form method="POST" enctype="multipart/form-data" id="productimageform" style="max-width:93vw" class="h-90 flex flex-column items-center space-y-2 " action="{{ route('adminproductpanelcreationpost') }}" >
+      @csrf
+      @method('Post')
+
+        <div class="row">
+            <div class="col-md-10">
+                <!-- Content for the first column goes here -->
+                <div class="form-group mb-2">
+                  <input type="text" name="product" id="product" placeholder="Product name" class="form-control px-3 py-2 rounded-md beautify-input" style="
+                    background-color:white;
+                    font-weight: bold;
+              font-size: 20px;
+              color: #333; 
+                    " required>
+                  @error('product')
+                          <div class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                          </div>
+                      @enderror
+                </div>
+                <div class="card mb-1">
+                  <div class="card-header">
+                    <label for="description" class="form-label text-right mr-2 p-2" ><b>Product Description:</b></label>
+                  </div>
+                  <div class="card-body">
+                    <textarea name="description" ></textarea>
+                  </div><div>
+
+                <div class="form-group mb-2 mt-1 ">
+                  <label for="slug" class="form-label text-right mr-2 " >Slug:</label>
+                  <input type="text" name="slug" id="slug" class="form-control px-3 py-2 rounded-md">
+                  @error('slug')
+                          <div class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                          </div>
+                      @enderror
+                </div>
+                <div class="form-group mb-2 ">
+                  <label for="productshortdescription" class="form-label text-right mr-2 " >Short Description (Optional):</label>
+                  <textarea name="productshortdescription" ></textarea>
+                </div>
+
+
+
+
+
+
+                <div class="form-group mb-2 ">
+                  <label for="producttype" class="form-label text-right mr-2 " >Product Type:</label>
+                  <select name="producttype" id="producttype" class="form-control px-3 py-2 rounded-md" required>
+                  <option value="" class="form-control px-3 py-2 rounded-md">Select</option>
+                  <option value="Simple" selected>Simple</option>
+                  <option value="Grouped">Grouped</option>
+                  <option value="Variable">Variable</option>
+              </select>
+              </div>
+                <div class="form-group mb-2 tohideifnotsimpleproduct">
+                  <label for="actualPrice" class="form-label text-right mr-2 " >Actual Price:</label>
+                  <input type="number" name="actualPrice" id="actualPrice" class="form-control px-3 py-2 rounded-md">
+                  @error('actualPrice')
+                          <div class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                          </div>
+                      @enderror
+                </div>
+                <div class="form-group mb-2 tohideifnotsimpleproduct">
+                  <label for="sellingPrice" class="form-label text-right mr-2 " >Sale Price</label>
+                  <input type="number" name="sellingPrice" id="sellingPrice" class="form-control px-3 py-2 rounded-md">
+                  @error('sellingPrice')
+                          <div class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                          </div>
+                      @enderror
+                </div>
+                <div class="form-group mb-2 tohideifnotsimpleproduct">
+                <label for="selectedpercentage" class="form-label text-right mr-2 " >Tick if providing discount value in percentage</label>
+                <input id="percentage" name="percentage" value=1 type="checkbox">
+                </div>
+                <div class="form-group mb-2 tohideifnotsimpleproduct">
+                  <label for="discount" class="form-label text-right mr-2 " >Discounted Value:</label>
+                  <input type="number" name="discount" id="discount" class="form-control px-3 py-2 rounded-md">
+                  @error('discount')
+                          <div class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                          </div>
+                      @enderror
+                </div>
+
+
+
+            </div>
+            <div class="col-md-2">
+              <div class="card-header">
+                <h5 class="" style="border-bottom: 2px solid #acacac;">
+                  <b>
+                    Publish
+                  </b>
+                </h5>
+              </div>
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-dark"
+                  style="color: blue; border-color: blue;"
+                  onmouseover="$(this).removeClass('bg-light').css('background-color', '#f2f2f2');"
+                  onmouseout="$(this).addClass('bg-light');">
+                    Save Draft
+                </button>
+                <button type="button" class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-gray-700"
+                  style="color: blue; border-color: blue;"
+                  onmouseover="$(this).removeClass('bg-light').css('background-color', '#f2f2f2');"
+                  onmouseout="$(this).addClass('bg-light');">
+                    Preview
+                </button>
+                </div>
+                <div class="form-check form-check-inline">
+                  {{-- <input class="form-check-input " style="cursor:pointer" type="radio" name="catalogVisibility" id="shopAndSearch" value="shopAndSearch" checked> --}}
+                  <i class="fa fa-anchor form-check-input" aria-hidden="true" style="color: #acacac;  border: none;"></i>
+                  <label class="form-check-label " for="shopAndSearch">Status: <b>Draft </b><a href="#">Edit</a></label>
+                </div>
+                </br>
+                <div class="form-check form-check-inline">
+                {{-- <input class="form-check-input " style="cursor:pointer" type="radio" name="catalogVisibility" id="shopAndSearch" value="shopAndSearch" checked> --}}
+                  <i class="fa fa-eye form-check-input" aria-hidden="true" style="color: #acacac;  border: none;"></i>
+                  <label class="form-check-label " for="shopAndSearch">Visibility: <b>Public </b><a href="#">Edit</a></label>
+                </div>
+                </br>
+                <div class="form-check form-check-inline">
+                    {{-- <input class="form-check-input " style="cursor:pointer" type="radio" name="catalogVisibility" id="shopAndSearch" value="shopAndSearch" checked> --}}
+                    <i class="fa fa-calendar form-check-input" aria-hidden="true" style="color: #acacac;  border: none;"></i>
+                    <label class="form-check-label " for="shopAndSearch">Publish: <b>immediately </b><a href="#">Edit</a></label>
+                </div>
+                <div class="form-check form-check-inline">
+                  {{-- <input class="form-check-input " style="cursor:pointer" type="radio" name="catalogVisibility" id="shopAndSearch" value="shopAndSearch" checked> --}}
+                  <i class="fa fa-rocket form-check-input" aria-hidden="true" style="color: #acacac;  border: none;"></i>
+                  <label class="form-check-label " for="shopAndSearch"><a href="#">SEO</a>: <b>Not available </b></label>
+                </div>
+                <div class="form-check form-check-inline">
+                {{-- <input class="form-check-input " style="cursor:pointer" type="radio" name="catalogVisibility" id="shopAndSearch" value="shopAndSearch" checked> --}}
+                  <i class="fa fa-book form-check-input" aria-hidden="true" style="color: #acacac;  border: none;"></i>
+                  <label class="form-check-label " for="shopAndSearch"><a href="#">Readibility</a>: <b>Not available </b></label>
+                </div>
+                </div>
+                <div class="form-group mb-2">
+                  <label for="image" class="form-label text-right mr-2">Catalog visibility: <b>Shop and search results</b> <a>Edit</a> </label></div>
+                <!-- Content for the second column goes here -->
+                <div class="form-group mb-2">
+                  <label for="image" class="form-label text-right mr-2">Product Image: (Optional) </label>
+                  <div class="custom-file">
+                      <input type="file" class="custom-file-input @error('image') is-invalid @enderror d-none" id="image" name="image" accept="image/png, image/jpeg, image/gif, image/jpg"  >
+                      @error('image')
+                          <div class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                          </div>
+                      @enderror
+                  </div>
+                  <div><a href="#" id="displayImageLink">Display Product Image</a></div>
+                  <img id="image-preview" class="img-thumbnail mt-2 d-none" style="max-width: 150px;" alt="Preview">
+                  <div><a href="#" id="hiddenImageLink" class="d-none">Remove Product Image</a></div>
+                  {{-- <img src="{{ asset('storage/images/1713428191.png') }}" id="image-previous" class="img-thumbnail mt-2" style="max-width: 150px;" alt="previous"> --}}
+              </div>
+              <div class="form-group mb-2 ">
+                <label for="tags" class="form-label text-right mr-2 " >Tags (enter to add, remove with "x"):</label>
+                <input type="text" name="tag" id="tags" class="form-control px-3 py-2 rounded-md mb-4" onkeydown="keyDown(event)">
+                <input type="text" name="tags" id="tag" class="form-control px-3 py-2 rounded-md mb-4 d-none">
+                <div id="tags-container"></div>
+                @error('tags')
+                        <div class="invalid-feedback">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
+              </div>
+              <div class="form-group mb-2">
+                <label for="images" class="form-label text-right mr-2">Gallery: (Optional) </label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input @error('images') is-invalid @enderror d-none" id="images" name="images[]" multiple accept="image/png, image/jpeg, image/gif, image/jpg">
+                    @error('images')
+                        <div class="invalid-feedback">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @enderror
+                </div>
+              
+                <div id="visible_on_gallery_display" class=" d-none" style="overflow-y: auto; overflow-x: auto; height:25vh; width:15vw;">
+                  <div id="filesviewer" class="h-100 w-100">
+                  </div>
+                </div>
+                <div><a href="#" id="displayImagesLink">Add product gallery images.</a></div>
+            </div>
+            <div class="form-group mb-2 ">
+              <label for="category" class="form-label text-right mr-2 " >Category:</label>
+              <select name="category" id="category" class="form-control px-3 py-2 rounded-md" required>
+              <option value="" class="form-control px-3 py-2 rounded-md">Select</option>
+              @foreach($categoryList as $id=>$category)
+                  <option value="{{ $id }}">{{ $category }}</option>
+              @endforeach
+          </select>
+        </div>
+          <div class="form-group mb-2 ">
+              <label for="subcategory" class="form-label text-right mr-2 " >Sub Category:</label>
+              <select name="subcategory" id="subcategory" class="form-control px-3 py-2 rounded-md">
+              <option value="" class="form-control px-3 py-2 rounded-md">Select</option>
+              @foreach($subcategoryList as $subcategoryList)
+                  <option class="{{ $subcategoryList->category_id}} displaynone d-none" value="{{ $subcategoryList->id}}">{{ $subcategoryList->subcategory}}</option>
+              @endforeach
+          </select>
+            </div>
+            </div>
+        </div>
+      <button type="submit" class="btn btn-primary">Create Product</button>
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="card mb-1 bg-white">
+              <div class="card-header bg-white" style="height:4vh">
+                <label for="productshortdescription" class="form-label text-right mr-2" ><b>SEO</b></label>
+              </div>
+              <div class="card-body bg-white">
+                <div class="row container-fluid" style="margin-left:1vw;">
+                  <div class="col-md-1 d-flex align-items-center justify-content-center" style="background-color:yellow; height:3vh; width:3vw;"><i class="fa-solid fa-face-frown" style="color:red; padding-right:5px;"></i> SEO</div>
+                  <div class="col-md-1 d-flex align-items-center justify-content-center" style="background-color:; width:6vw;"><i class="fa-solid fa-face-frown" style="color:red;padding-right:5px;"></i> Readibility</div>
+                  <div class="col-md-1 d-flex align-items-center justify-content-center" style="background-color:yellow; width:4.5vw;"><i class="fas fa-th" style="padding-right:5px;"></i> Schema</div>
+                  <div class="col-md-1 d-flex align-items-center justify-content-center" style="background-color:violet; width:3.5vw;"><i class="fas fa-share-alt" style="padding-right:5px;"></i> Social</div>
+                </div>
+                {{-- <div style=" border:0.1vw solid red; height:30vh; width:30vw;"> --}}
+                  <div style=" border:0.1vw solid red; height:70vh; width:30vw;"> 
+                  {{-- Readibility --}}
+                  <div class="d-none" style=" border:0.1vw solid red; height:20vh; width:26vw; margin-left:1vw; margin-top:2vh;">
+                    <b>Analysis results</b>
+                    <p style="margin-top:1vh;"><b>Problems</b> <b>(2)</b></p>
+                    <p><i class="fa-solid fa-circle" style="color:red"></i>Word complexity: Is your vocabulary suited for a larger audience? </p>
+                    <p><i class="fa-solid fa-circle" style="color:gray"></i><a href="#">Not enough content: Please add some content to enable a good analysis.</a></p>
+                  </div>
+                       {{-- SEO --}}
+                       <div class="form-group mb-2 p-2 tohideifnotsimpleproduct">
+                        <label for="discount" class="form-label text-right mr-2"><b>Focus keyphrase:</b></label>
+                        <input type="text" name="focus_key_phrase" id="focus_key_phrase" class="form-control px-3 py-2 rounded-md beautify rounded-0" style="background-color: white; color: #333;">
+                        <button type="submit" class="btn" style="background-color: #ececec; color: black; margin-top: 0.5vw;" onclick="getRelatedKeyphrases()">Get related keyphrases</button>
+                        <div id="related_keyphrases"></div>
+                        <p><b>Preview as:</b></p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" style="cursor: pointer;" type="radio" name="catalogVisibility" id="shopAndSearchMobile" value="shopAndSearch" checked>
+                            <label class="form-check-label" for="shopAndSearchMobile">Mobile Result</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" style="cursor: pointer;" type="radio" name="catalogVisibility" id="shopAndSearchDesktop" value="shopAndSearch">
+                            <label class="form-check-label" for="shopAndSearchDesktop">Desktop Result</label>
+                        </div>
+                    </div>
+                    {{-- working --}}
+                    <div class= "row p-2">
+                      <div class="col-md-1">
+                        <img src="{{ asset('storage/images/1713428191.png') }}" id="image-previous" class=" mt-2 rounded" style="height:1.5vh;width:1.5vw;" alt="previous">
+                      </div>
+                      <div class="col-md-10">
+                        <p class="">Emotion Graphix</br>emotiongraphix.com > <b id="slugshouldbehere">xyz</b></p>
+                      </div>
+                      <div class="col-md-1"><i class="fas fa-ellipsis-v"></i></div>
+                      <p id="seo_title_display" style="color:blue;font-size:1vw;">https://www.example.com</p>
+                      <p id="meta_description_display">Please provide a meta description by editing the snippet below. If you don’t, Google will try to find a relevant part of your post to show in the search results.</p>
+                      <div class="form-group mb-2 tohideifnotsimpleproduct">
+                        <label for="slug" class="form-label text-right mr-2"><b>Slug:</b></label>
+                        <input type="text" name="slug" id="slug" class="form-control px-3 py-2 rounded-md beautify rounded-0" style="background-color: white; color: #333;">
+                      
+                  </div>
+                  <div class="form-group mb-2 tohideifnotsimpleproduct">
+                    <label for="seo_title" class="form-label text-right mr-2"><b>SEO title:</b></label>
+                    <input type="text" name="seo_title" id="seo_title" class="form-control px-3 py-2 rounded-md beautify rounded-0" style="background-color: white; color: #333;">
+                  
+              </div> 
+              <div class="form-group mb-2 tohideifnotsimpleproduct">
+                <label for="meta_description" class="form-label text-right mr-2"><b>Meta Description:</b></label>
+                <textarea name="meta_description" id="meta_description" class="form-control px-3 py-2 rounded-md beautify rounded-0" style="background-color: white; color: #333;"></textarea>
+              
+          </div>  </div>
+
+                  
+                  {{-- end working --}}
+                  
+                </div>
+         
+            
+            
+            </div></div>
+
+
+
+  
+            <div class="row">
+            <div class="col-md-10">
+                <!-- Content for the first column goes here -->
+                
+        
+
+
+
+
+                
+                <div class="form-group mb-2 tohideifnotsimpleproduct">
+                  <label for="actualPrice" class="form-label text-right mr-2 " >Actual Price:</label>
+                  <input type="number" name="actualPrice" id="actualPrice" class="form-control px-3 py-2 rounded-md">
+                  @error('actualPrice')
+                          <div class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                          </div>
+                      @enderror
+                </div>
+                <div class="form-group mb-2 tohideifnotsimpleproduct">
+                  <label for="sellingPrice" class="form-label text-right mr-2 " >Sale Price</label>
+                  <input type="number" name="sellingPrice" id="sellingPrice" class="form-control px-3 py-2 rounded-md">
+                  @error('sellingPrice')
+                          <div class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                          </div>
+                      @enderror
+                </div>
+                <div class="form-group mb-2 tohideifnotsimpleproduct">
+                <label for="selectedpercentage" class="form-label text-right mr-2 " >Tick if providing discount value in percentage</label>
+                <input id="percentage" name="percentage" value=1 type="checkbox">
+                </div>
+                <div class="form-group mb-2 tohideifnotsimpleproduct">
+                  <label for="discount" class="form-label text-right mr-2 " >Discounted Value:</label>
+                  <input type="number" name="discount" id="discount" class="form-control px-3 py-2 rounded-md">
+                  @error('discount')
+                          <div class="invalid-feedback">
+                              <strong>{{ $message }}</strong>
+                          </div>
+                      @enderror
+                </div>
+
+
+
+            </div>
+            <div class="col-md-2">
+              
+                
+               
+               
+               
+            </div>
+        </div>
+
+
+
+
+        <script>
+  function getRelatedKeyphrases() {
+    event.preventDefault();
+     // Simulate API request (replace with actual API call)
+  function simulateAPIRequest(focusKeyphrase) {
+    // Hardcoded related keyphrases
+    var keyphrases = [
+      "related keyphrase 1",
+      "related keyphrase 2",
+      "related keyphrase 3"
+    ];
+    return keyphrases;
+  }
+    // Get the focus keyphrase from the input field
+    var focusKeyphrase = document.getElementById("focus_keyphrase").value;
+
+    // Simulate related keyphrases (replace with your data or API call)
+    var relatedKeyphrases = simulateAPIRequest(focusKeyphrase);
+
+    // Display related keyphrases on the page
+    var relatedKeyphrasesContainer = document.getElementById("related_keyphrases");
+    relatedKeyphrasesContainer.innerHTML = "<h3>Related Keyphrases:</h3>";
+    relatedKeyphrases.forEach(function(keyphrase) {
+      relatedKeyphrasesContainer.innerHTML += "<p>" + keyphrase + "</p>";
+    });
+  }
+
+ 
+</script>
+
+
+
+$.ajax({
+//     url: '/admin/retrieve-data-for-attributes',
+//     method: 'GET',
+//     success: function(response) {
+//         // Handle the response data
+//         // console.log(response);
+
+//         const xsellInput = document.getElementById("xsell");
+// const xsellList = document.getElementById("xsellList");
+
+// // Sample product data (replace with your actual data source)
+// const xsellLpro = response;
+// i=1;
+// xsellInput.addEventListener("keyup", function() {
+//   $('#xsellList').removeClass('d-none');
+//   const searchTerm = xsellInput.value.toLowerCase().trim(); // Get the trimmed lowercase input
+
+//   // Filter xsellLpro with at least 3 characters match
+//   const filteredxsellLpro = xsellLpro.filter(product => product.toLowerCase().includes(searchTerm) && searchTerm.length >= 3);
+
+//   // Clear previous results
+//   xsellList.innerHTML = "";
+
+//   if (filteredxsellLpro.length > 0) {
+//     const xsellListElement = document.createElement("ul");
+//     xsellListElement.classList.add("product-list");
+
+//     filteredxsellLpro.forEach(product => {
+//       const listItem = document.createElement("p");
+//       listItem.textContent = product;
+//       xsellListElement.appendChild(listItem);
+//     });
+
+//     xsellList.appendChild(xsellListElement);
+//   } else {
+//     if(i==1){
+//       xsellList.textContent = "Please enter 2 or more characters";
+//       i++;
+//     }else if(i==2){
+//       xsellList.textContent = "Please enter 1 or more characters";
+//       i++;
+//     }else{
+//     xsellList.textContent = "No xsellLpro found.";}
+//   }
+// });
+
+
+
+
+//     },
+//     error: function(xhr, status, error) {
+//         // Handle errors
+//         console.error(xhr.responseText);
+//     }
+// });
+
+
+
+function handleNameValue(removeid) {
+           idtexttochange= "toChangeOnInputName"+removeid;
+           idtextequalsto = "attrname" + removeid;
+           content = $("#"+idtextequalsto)
+           $("#"+id).innerText(content)
+
+        }

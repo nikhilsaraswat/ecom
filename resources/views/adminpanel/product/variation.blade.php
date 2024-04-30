@@ -25,7 +25,7 @@
                 </div>
 
                 <div style="overflow-y: auto; height:65vh;">
-                    <table class="table table-striped" class="h-100">
+                    <table id="myTable" class="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col">Attribute</th>
@@ -83,6 +83,11 @@
                     dd($split_string);
                 </script>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://cdn.datatables.net/2.0.5/js/dataTables.min.js"></script>
+                <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.min.css">
+                <script>
+                  let table = new DataTable('#myTable');
+                  </script>
             </div>
         </div>
     </div>
