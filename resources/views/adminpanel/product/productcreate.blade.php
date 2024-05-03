@@ -41,9 +41,8 @@
 @endsection
 @push('script')
 <!-- <div id="myChart" style="max-width:700px; height:400px;"></div> -->
-
-
-<script src="{{ asset('storage/js/productwindowload.js') }}"></script>
+<script src="{{ asset('storage/js/attributeproduct.js') }}"></script>
+<script src="{{ asset('storage/js/variableproductjs.js') }}"></script>
 <script src="{{ asset('storage/js/productwindowload.js') }}"></script>
 <script src="{{ asset('storage/js/productinventoryshipdisplay.js') }}"></script>
 <script src="{{ asset('storage/js/productsearchupsell.js') }}"></script>
@@ -51,7 +50,9 @@
 <script src="{{ asset('storage/js/productslugseo.js') }}"></script>
 <script src="{{ asset('storage/js/producttags.js') }}"></script>
 <script src="{{ asset('storage/js/productbulkimageuploader.js') }}"></script>
-<script src="{{ asset('storage/js/attributeproduct.js') }}"></script>
+<script src="{{ asset('storage/js/rightaside.js') }}"></script>
+
+
 
 <script>
 // 

@@ -65,11 +65,12 @@
     <div class="card mb-1 bg-white">
         <div class="card-header bg-white" style="height:4vh">
             <label for="productshortdescription" class="form-label text-right mr-2"><b>Product Data &mdash;</b></label>
-            <select name="producttype" id="producttype" style="width:10vw" required>
-                <option value="" class="form-control rounded-md">Select</option>
-                <option value="Simple" selected>Simple</option>
-                <option value="Grouped">Grouped</option>
-                <option value="Variable">Variable</option>
+            <select name="producttype" id="producttype" style="width:10vw; cursor:pointer;" required>
+                <option value="" class="form-control rounded-md" disabled>Select</option>
+                <option value="Simple"  selected>Simple product</option>
+                <option value="Grouped" >Grouped product</option>
+                <option value="External/Affiliate product" >External/Affiliate product</option>
+                <option value="Variable" >Variable product</option>
             </select>
             <div class="form-check form-check-inline">
                 <label for="shopAndSearchDesktop" class="form-check-label">Virtual:</label>
@@ -84,14 +85,24 @@
             </div>
         </div>
         <div class="card-body  py-0 pl-0 bg-white">
-            <div class="row py-0 ml-0" style="background-color:red; height:38vh; width:74.7vw;">
+            <div class="row py-0 ml-0" style="background-color:white; height: auto; width:74.7vw;">
                 @include('adminpanel.product.productcreatecomponents.subsidebar')
 
                 <div class="col-md-9" style=" height:inherit; background-color:white;">
                     <div id="generalproduct"
-                        class="mt-2 hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook d-none">
+                        class="mt-2 hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook hiderestnonselectedvariations">
+                        <div class="d-none externaldisplaytoshow simpledisplay"><label for="sellingPrice" class="form-label text-right mr-2 "
+                            style="margin-right:5.2vw; margin-top:2vh;">Product URL</label>
+                        <input type="text" name="sellingPrice" id="sellingPrice" placeholder="https://{enter external url to product}" style="width:60%;"
+                            class=" px-3 py-1 rounded-md">
+                    </div>
+                    <div class="d-none externaldisplaytoshow simpledisplay"><label for="sellingPrice" class="form-label text-right mr-2 "
+                        style="margin-right:5.8vw; margin-top:2vh;">Button text</label>
+                    <input type="text" name="sellingPrice" id="sellingPrice" placeholder="Buy product{This text will be shown on the button linking to the external product.}" style="width:60%;"
+                        class=" px-3 py-1 rounded-md">
+                </div>
                         <div>
-                            <label for="actualPrice" class="form-label text-right" style="margin-right:4vw">Regular
+                            <label for="actualPrice" class="form-label text-right" style="margin-right:4vw; margin-top:2vh;">Regular
                                 price (₹)</label>
                             <input type="number" name="actualPrice" id="actualPrice" style="width:60%;"
                                 class=" px-3 py-1 rounded-md">
@@ -116,36 +127,36 @@
 
                     </div>
                     <div id="inventoryproduct"
-                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook d-none">
+                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook hiderestnonselectedvariations d-none">
                         <div>
                             <label for="sku" class="form-label text-right" style="margin-right:10vw">SKU</label>
                             <input type="number" name="sku" id="sku" style="width:60%;"
                                 class=" px-3 py-1 rounded-md">
                         </div>
-                        <div>
-                            <label for="stockmanagement" class="form-label text-right" style="margin-right:5vw">Stock
+                        <div class="groupeddisplay externaldisplay simpledisplayshow">
+                            <label for="stockmanagement" class="form-label text-right " style="margin-right:5vw">Stock
                                 management</label>
                             <input type="checkbox" name="stockmanagement" id="stockmanagement"
                                 style=" margin-top:2vh;" class=" rounded-md">
                             Track stock quantity for this product
                         </div>
-                        <div>
+                        <div class="groupeddisplay externaldisplay vardisplay simpledisplayshow">
                             <label for="stockstatus" class="form-label text-right" style="margin-right:7.4vw">Stock
                                 status</label>
                             <input type="radio" name="stockstatus" id="stockstatus" class=" px-3 py-1 rounded-md"
                                 checked>
                             In stock
                         </div>
-                        <div>
+                        <div class="groupeddisplay externaldisplay externaldisplay vardisplay simpledisplayshow">
                             <label><input type="radio" name="outofstock" id="outofstock"
                                     class=" px-3 py-1 rounded-md" style="margin-left:11.7vw"> Out of stock</label>
                         </div>
-                        <div>
+                        <div class="groupeddisplay externaldisplay vardisplay simpledisplayshow">
                             <label><input type="radio" name="onbackorder" id="onbackorder"
                                     class=" px-3 py-1 rounded-md" style="margin-top:1vh; margin-left:11.7vw"> On back
                                 order</label>
                         </div>
-                        <div>
+                        <div class="groupeddisplay externaldisplay simpledisplayshow">
                             <label for="soldind" class="form-label text-right" style="margin-right:6vw">Sold
                                 individually</label>
                             <input type="checkbox" name="soldind" id="soldind" style=" margin-top:2vh;"
@@ -161,7 +172,7 @@
                     </div>
                     {{-- work starts here for General --}}
                     <div id="shippingproduct"
-                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook d-none">
+                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook hiderestnonselectedvariations d-none">
                         <div>
                             <label for="wtkg" class="form-label text-right" style="margin-right:8vw">Weight
                                 (kg)</label>
@@ -186,29 +197,35 @@
                     </div>
 
                     <div id="linkedproduct"
-                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook d-none">
+                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook hiderestnonselectedvariations d-none">
                         <div>
-                            <label for="upsell" class="form-label text-right"
-                                style="margin-right:8vw">Upsells</label>
+                            <label for="upsell" class="form-label text-right "
+                                style="margin-right:8vw">
+                                Upsells
+                            </label>
                             <input type="text" name="upsell" id="upsell" style="width:60.5%;"
                                 placeholder="Search for a product..." class="mb-0 rounded-md">
                             <div style="background-color:white; width:60.5%; margin-left:10.7vw"
                                 class=" p-1 mt-0 d-none" id="upsellList"></div>
                         </div>
                         <div>
-                            <label for="xsell" class="form-label text-right"
+                            <label for="xsell" class="form-label text-right groupeddisplay externaldisplay simpledisplayshow"
                                 style="margin-right:6.75vw ">Cross-sells</label>
+                                <label for="upsell" class="form-label text-right groupeddisplaytoshow externaldisplay simpledisplay d-none"
+                                style="margin-right:4.5vw">
+                                Grouped products
+                            </label>
                             <input type="text" name="xsell" id="xsell" style="width:60.5%;"
-                                placeholder="Search for a product..." class=" px-3 py-1 mt-3 rounded-md">
+                                placeholder="Search for a product..." class=" px-3 py-1 mt-3 rounded-md externaldisplay simpledisplayshow">
                             <div style="background-color:white; width:60.5%; margin-left:10.7vw"
                                 class=" p-1 mt-0 d-none" id="xsellList"></div>
                         </div>
 
                     </div>
-                    {{-- may be require to work more in this--}}
+                    {{-- may be require to work more in this --}}
                     <div id="attributesproduct"
-                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedadvanced hiderestnonselectedfacebook d-none"
-                        style=" height:30vh;">
+                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedadvanced hiderestnonselectedfacebook hiderestnonselectedvariations d-none"
+                        style="height: auto;">
                         <div class="d-flex container-fluid align-items-center justify-content-between"
                             style=" height:4vh; width:100%;border-left: .25vw solid #818589;">
                             <p class="m-0">Add descriptive pieces of information that customers can use to search
@@ -231,79 +248,109 @@
                                     style="margin-left:4.35vw; background-color:white; width:10.7vw; cursor: pointer; z-index:1;"
                                     class="dropdown-content d-none">
                                     @foreach ($dataofvariables as $data)
-                                        <option style=" background-color:white; border: none;
+                                        <option
+                                            style=" background-color:white; border: none;
                                           width:100%;
                                           cursor: pointer;"
-                                          value = "{{$data->attribute}}"
+                                            value = "{{ $data->attribute }}"
                                             onmouseover="this.style.backgroundColor='blue'; this.style.color='white';"
                                             onmouseout="this.style.backgroundColor='white'; this.style.color='';"
-                                            onclick="crefixvalattrspace('{{$data->attribute}}', '{{$data->value}}');">
+                                            onclick="crefixvalattrspace('{{ $data->attribute }}', '{{ $data->value }}','{{$dataofvariables}}');"
+                                            >
                                             {{ $data->attribute }}</option>
                                     @endforeach
                                 </div>
                             </div>
                             <a class="d-flex align-items-center justify-content-between" href="#"
-                                style=" height:4vh; width:10%">
-                                Expand / Close
+                                style=" height:4vh; width:10%, border:none;">
+                                <button id="expandattr" style="border:none;background-color:white;">Expand</button> / <button id="closeattr" style="border:none;background-color:white;">Close</button>
                             </a>
                         </div>
                         <div id="container">
                             <!-- HTML will be created and appended here -->
                         </div>
-                        <div style="z-index:4; position: absolute; top-0; right-0;"
-                            class="mt-2 "><button class="btn btn-primary">Save attributes</button></div>
+                        <div style="" class="mt-2 " id="saveattr"><button
+                                class="btn btn-primary" onclick={saveattr}>Save attributes</button></div>
                     </div>
                     <div id="advancedproduct"
-                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedfacebook d-none"
+                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedfacebook hiderestnonselectedvariations d-none"
                         style=" height:30vh;">
-                        <div class="d-flex container-fluid align-items-center"><label for="purchaseNote" class="form-label text-right"
-                          style="margin-right:8vw">Purchase note</label>
-                      <textarea name = "purchaseNote" style="width:50%; height:5vh;" class="rounded"></textarea></div>
+                        <div class="d-flex container-fluid align-items-center groupeddisplay externaldisplay simpledisplayshow"><label for="purchaseNote"
+                                class="form-label text-right" style="margin-right:8vw">Purchase note</label>
+                            <textarea name = "purchaseNote" style="width:50%; height:5vh;" class="rounded"></textarea>
+                        </div>
                         <div class="mt-2"><label for="upsell" class="form-label text-right"
                                 style="margin-right:8.6vw; padding-left:0.7vw;">Menu order</label>
-                            <input type="text" name="upsell" id="upsell" style="width:49%;"
-                                placeholder="Search for a product..." class="mb-0 rounded-md"></div>
-                      </div>
-                      {{-- may be require to work more in this--}}
-                      <div id="facebookproduct"
-                      class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced"
-                      style=" height:30vh; background-color:violet;">
-                      <label for="productship" class="form-label text-right" style="margin-right:10vw;padding-left:0.7vw;">Facebook sync</label>
-                    <select name="productship" id="productship" style="width:33.25vw" class="mt-3 p-2" required>
-                        <option value="" class="form-control rounded-md">Sync and show in catalog</option>
-                        <option value="" class="form-control rounded-md">Sync and hide in catalog</option>
-                        <option value="" class="form-control rounded-md">Do not sync</option>
-                    </select>
-                    <div class="d-flex container-fluid align-items-center mt-2"><label for="purchaseNote" class="form-label text-right"
-                      style="margin-right:8vw">Facebook Description</label>
-                  <textarea name = "purchaseNote" style="width:50%; height:5vh;" class="rounded "></textarea></div>
-                  <div class="mt-2">
-                    <label for="stockstatus" class="form-label text-right" style="margin-right:7.4vw;padding-left:0.7vw;">
-                      Facebook Product Image</label>
-                    <input type="radio" name="stockstatus" id="stockstatus" class=" px-3 py-1 rounded-md"
-                        checked>
-                        Use WC image
-                </div>
-                  <div>
-                    <label><input type="radio" name="onbackorder" id="onbackorder"
-                            class=" px-3 py-1 rounded-md" style="margin-top:1vh; margin-left:16.6vw"> Use custom image</label>
-                </div>
-                <div class="mt-2"><label for="upsell" class="form-label text-right"
-                  style="margin-right:8.6vw; padding-left:0.7vw;">Custom Image URL</label>
-              <input type="text" name="upsell" id="upsell" style="width:49%;"
-                  placeholder="Search for a product..." class="mb-0 rounded-md"></div>
-                   
-                <div class="mt-2"><label for="upsell" class="form-label text-right"
-                  style="margin-right:8.6vw; padding-left:0.7vw;">Facebook Price (₹)</label>
-              <input type="input" name="upsell" id="upsell" style="width:49%;"
-                  placeholder="Search for a product..." class="mb-0 rounded-md"></div>
+                            <input type="input" name="upsell" id="upsell" style="width:49%;"
+                                placeholder="0" class="mb-0 rounded-md">
+                        </div>
                     </div>
+                    
+                    <div id="facebookproduct"
+                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedvariations d-none"
+                        style=" height:30vh;">
+                        <label for="productship" class="form-label text-right"
+                            style="margin-right:10vw;padding-left:0.7vw;">Facebook sync</label>
+                        <select name="productship" id="productship" style="width:26.75vw" class="mt-3 p-2" required>
+                            <option value="" class="form-control rounded-md">Sync and show in catalog</option>
+                            <option value="" class="form-control rounded-md">Sync and hide in catalog</option>
+                            <option value="" class="form-control rounded-md">Do not sync</option>
+                        </select>
+                        <div class="d-flex container-fluid align-items-center mt-2"><label for="purchaseNote"
+                                class="form-label text-right" style="margin-right:8vw">Facebook Description</label>
+                            <textarea name = "purchaseNote" style="width:50%; height:5vh;" class="rounded "></textarea>
+                        </div>
+                        <div class="mt-2">
+                            <label for="stockstatus" class="form-label text-right"
+                                style="margin-right:7.4vw;padding-left:0.7vw;">
+                                Facebook Product Image</label>
+                            <input type="radio" name="stockstatus" id="stockstatus" class=" px-3 py-1 rounded-md"
+                                checked>
+                            Use WC image
+                        </div>
+                        <div>
+                            <label><input type="radio" name="onbackorder" id="onbackorder"
+                                    class=" px-3 py-1 rounded-md" style="margin-top:1vh; margin-left:16.6vw"> Use
+                                custom image</label>
+                        </div>
+                        <div class="mt-2"><label for="upsell" class="form-label text-right"
+                                style="margin-right:8.6vw; padding-left:0.7vw;">Custom Image URL</label>
+                            <input type="text" name="upsell" id="upsell" style="width:49%;"
+                                placeholder="Search for a product..." class="mb-0 rounded-md">
+                        </div>
+
+                        <div class="mt-2"><label for="upsell" class="form-label text-right"
+                                style="margin-right:8.9vw; padding-left:0.7vw;">Facebook Price (₹)</label>
+                            <input type="input" name="upsell" id="upsell" style="width:49%;"
+                                placeholder="Search for a product..." class="mb-0 rounded-md">
+                        </div>
+                    </div>
+                    {{-- may be require to work more in this --}}
+                    <div id="variationsproduct"
+                        class="mt-2 hiderestnonselectedgeneral hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook d-none"
+                        style=" height:auto;">
+                        <button type="button"
+                                    class="btn btn-outline-secondary me-2 p-2 btn-sm bg-light hover:bg-gray-700"
+                                    style="color: blue; border-color: blue;" id="genvar"
+                                    onmouseover="$(this).removeClass('bg-light').css('background-color', '#f2f2f2');"
+                                    onmouseout="$(this).addClass('bg-light');">
+                                    Generate Variations
+                                </button>
+                                <button type="button"
+                                    class="btn btn-outline-secondary me-2 p-2 btn-sm bg-light hover:bg-gray-700"
+                                    style="color: blue; border-color: blue;" id="manvar"
+                                    onmouseover="$(this).removeClass('bg-light').css('background-color', '#f2f2f2');"
+                                    onmouseout="$(this).addClass('bg-light');">
+                                    Add Manually
+                                </button>
+                        <div id="nextelementfromjs">
+
+                        </div>
+       
+                </div>
                     {{-- work ends here --}}
                 </div>
             </div>
         </div>
     </div>
-
-
-    a
 </div>

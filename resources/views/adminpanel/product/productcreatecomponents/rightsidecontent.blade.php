@@ -1,13 +1,13 @@
 <div class="col-md-2">
     <div class="d-flex pr-10 flex-column">
-    <div class="card-header" >
+    <div class="card-header p-2" style="background-color:white;">
       <h5 class="" style="border-bottom: 2px solid #acacac;">
         <b>
           Publish
         </b>
       </h5>
     </div>
-  <div class="card-body ">
+  <div class="card-body p-2" style="background-color:white;">
     <div class="d-flex justify-content-between">
       <button type="button" class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-dark"
         style="color: blue; border-color: blue;"
@@ -25,7 +25,22 @@
       <div class="form-check form-check-inline">
         {{-- <input class="form-check-input " style="cursor:pointer" type="radio" name="catalogVisibility" id="shopAndSearch" value="shopAndSearch" checked> --}}
         <i class="fa fa-anchor form-check-input" aria-hidden="true" style="color: #acacac;  border: none;"></i>
-        <label class="form-check-label " for="shopAndSearch">Status: <b>Draft </b><a href="#">Edit</a></label>
+        <label class="form-check-label " for="shopAndSearch">Status: 
+          {{-- working start --}}
+          <b id="statusset">Draft </b><a href="#" id="editstatus">Edit</a>
+          <div id="statusrighttoshow" class="d-none">
+          <select name="statustype" id="statustype" style="width:6vw; cursor:pointer;" required>
+            <option value="Pending Review" class="form-control rounded-md">Pending Review</option>
+            <option value="Draft"  selected>Draft</option>
+        </select>
+        <a type="button" id="ok_status_change"
+                    class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-gray-700 to_view_on_edit_permalink"
+                    style="color: blue; border-color: blue;"
+                    onmouseover="$(this).removeClass('bg-light').css('background-color', '#f2f2f2');"
+                    onmouseout="$(this).addClass('bg-light');">OK</a>
+                <a class=" to_view_on_edit_permalink" id="cancel_status_change" href="#">cancel</a></div>
+        {{-- working end --}}
+        </label>
       </div>
     </br>
     <div class="form-check form-check-inline">
@@ -50,7 +65,7 @@
     <label class="form-check-label " for="shopAndSearch"><a href="#">Readibility</a>: <b>Not available </b></label>
   </div>
   </div>
-  <div class="form-group mb-2">
+  <div class="form-group mb-2 p-2" style="background-color:white;">
     <label for="image" class="form-label text-right mr-2">Catalog visibility: <b>Shop and search results</b> <a>Edit</a> </label></div>
      <!-- Content for the second column goes here -->
      <div class="form-group mb-2">
