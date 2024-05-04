@@ -30,7 +30,7 @@
           @include("adminpanel.product.productcreatecomponents.rightsidecontent")
         </div></div>
        
-      <button type="submit" class="btn btn-primary">Create Product</button>
+
     </form>
 </div></div>
 <link rel="stylesheet" href="{{ asset('storage/css/imageandproductinvshipstyle.css') }}">
