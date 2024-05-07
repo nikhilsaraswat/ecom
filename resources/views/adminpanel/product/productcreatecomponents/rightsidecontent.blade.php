@@ -1,21 +1,24 @@
 <div class="col-md-2">
     <div class="d-flex pr-10 flex-column">
+      <input type=text id="clickstatusdraftorpreview" name="clickbutton" class="d-none"/>
     <div class="card-header p-2" style="background-color:white;">
       <h5 class="" style="border-bottom: 2px solid #acacac;">
-        <b>
+        <b >
           Publish
         </b>
       </h5>
     </div>
   <div class="card-body p-2" style="background-color:white;">
     <div class="d-flex justify-content-between">
-      <button type="button" class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-dark"
+      <button type="submit" class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-dark"
+      id="savedraft"
         style="color: blue; border-color: blue;"
         onmouseover="$(this).removeClass('bg-light').css('background-color', '#f2f2f2');"
         onmouseout="$(this).addClass('bg-light');">
           Save Draft
       </button>
-      <button type="button" class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-gray-700"
+      <button type="submit" class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-gray-700"
+      id="preview"
         style="color: blue; border-color: blue;"
         onmouseover="$(this).removeClass('bg-light').css('background-color', '#f2f2f2');"
         onmouseout="$(this).addClass('bg-light');">
@@ -28,7 +31,7 @@
         <label class="form-check-label " for="shopAndSearch">Status: 
           <b id="statusset">Draft </b><a href="#" id="editstatus">Edit</a>
           <div id="statusrighttoshow" class="d-none">
-          <select name="statustype" id="statustype" style="width:6vw; cursor:pointer;" required>
+          <select name="statustype" id="statustype" style="width:6vw; cursor:pointer;" >
             <option value="Pending Review" class="form-control rounded-md">Pending Review</option>
             <option value="Draft"  selected>Draft</option>
         </select>
@@ -55,7 +58,7 @@
             <label><input type="radio" name="Public" id="Public" value="Public"
                     class=" px-3 py-1 rounded-md" onclick="handleRadioButtonClick(this)">Public</label>
                     <br/>
-                    <label><input type="radio" name="password protected" id="passProtect" value="passProtect"
+                    <label><input type="radio" name="password_protected" id="passProtect" value="passProtect"
                       class=" px-3 py-1 rounded-md" onclick="handleRadioButtonClick(this)">Password protected</label>
                       <br/>
                       <label for="upsell" class="form-label text-right d-none toshowonprotectvisible"
@@ -84,28 +87,28 @@
       <i class="fa fa-calendar form-check-input" aria-hidden="true" style="color: #acacac;  border: none;"></i>
       <label class="form-check-label " for="shopAndSearch">Publish: <b id="timeset">immediately </b><a href="#" id="edittime">Edit</a>
         <div id="timerighttoshow" class="d-none">
-          <select name="monthtype" id="monthtype" style="width:3.1vw; cursor:pointer; font-size: smaller;" required>
-            <option value="Pending Review" value="Jan" class="form-control rounded-md" style="font-size: smaller;">01-Jan</option>
-            <option value="Draft" value="Feb" style="font-size: smaller;">02-Feb</option>
-            <option value="Draft" value="Mar" style="font-size: smaller;">03-Mar</option>
-            <option value="Draft" value="Apr" style="font-size: smaller;">04-Apr</option>
-            <option value="Draft" value="May" style="font-size: smaller;">05-May</option>
-            <option value="Draft" value="Jun" style="font-size: smaller;">06-Jun</option>
-            <option value="Draft" value="Jul" style="font-size: smaller;">07-Jul</option>
-            <option value="Draft" value="Aug" style="font-size: smaller;">08-Aug</option>
-            <option value="Draft" value="Sep" style="font-size: smaller;">09-Sep</option>
-            <option value="Draft" value="Oct" style="font-size: smaller;">10-Oct</option>
-            <option value="Draft" value="Nov" style="font-size: smaller;">11-Nov</option>
-            <option value="Draft" value="Dec" style="font-size: smaller;">12-Dec</option>
+          <select name="monthtype" id="monthtype" style="width:3.1vw; cursor:pointer; font-size: smaller;" >
+            <option value="Jan" class="form-control rounded-md" style="font-size: smaller;">01-Jan</option>
+            <option  value="Feb" style="font-size: smaller;">02-Feb</option>
+            <option value="Mar" style="font-size: smaller;">03-Mar</option>
+            <option  value="Apr" style="font-size: smaller;">04-Apr</option>
+            <option  value="May" style="font-size: smaller;">05-May</option>
+            <option  value="Jun" style="font-size: smaller;">06-Jun</option>
+            <option  value="Jul" style="font-size: smaller;">07-Jul</option>
+            <option  value="Aug" style="font-size: smaller;">08-Aug</option>
+            <option  value="Sep" style="font-size: smaller;">09-Sep</option>
+            <option  value="Oct" style="font-size: smaller;">10-Oct</option>
+            <option  value="Nov" style="font-size: smaller;">11-Nov</option>
+            <option  value="Dec" style="font-size: smaller;">12-Dec</option>
         </select>
-        <input type="text" name="daytype" id="daytype" style="width:10.5%;font-size: smaller;"
-        placeholder="05" class="mb-0 p-0 rounded-md">,
-        <input type="text" name="yeartype" id="yeartype" style="width:15.5%;font-size: smaller;"
-        placeholder="2024" class="mb-0 p-0 rounded-md">at
-        <input type="text" name="hrtype" id="hrtype" style="width:10.5%;font-size: smaller;"
-        placeholder="16" class="mb-0 rounded-md">:
-        <input type="text" name="mintype" id="mintype" style="width:10.5%;font-size: smaller;"
-        placeholder="39" class="mb-0 rounded-md">
+        <input type="number" name="daytype" id="daytype" style="width:10.5%;font-size: smaller;"
+        placeholder="05" min=1 max=31 class="mb-0 p-0 rounded-md number-text">,
+        <input type="number" name="yeartype" id="yeartype" style="width:15.5%;font-size: smaller;"
+        placeholder="2024" min=0 max=10000 class="mb-0 p-0 rounded-md number-text">at
+        <input type="number" name="hrtype" id="hrtype" style="width:10.5%;font-size: smaller;"
+        placeholder="16" min=0 max=24 class="mb-0 rounded-md number-text">:
+        <input type="number" name="mintype" id="mintype" style="width:10.5%;font-size: smaller;"
+        placeholder="39" min=0 max=30 class="mb-0 rounded-md number-text">
                       <br/>
       <a type="button" id="ok_time_change"
                   class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-gray-700 to_view_on_edit_permalink"
@@ -160,7 +163,8 @@
             {{-- working end --}}
     </label>
     <div style="width:100%;" class="d-flex container-fluid justify-content-end">
-    <button type="button" class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-dark"
+    <button type="submit" class="btn btn-outline-secondary me-2 btn-sm bg-light hover:bg-dark"
+    id="publish"
     style="color: blue; border-color: blue;"
     onmouseover="$(this).removeClass('bg-light').css('background-color', '#f2f2f2');"
     onmouseout="$(this).addClass('bg-light');">
@@ -201,8 +205,9 @@
     </div>
     <div><a href="#" id="displayImagesLink">Add product gallery images.</a></div>
 </div>
-<div class="form-group mb-2 p-2" style="background-color:white">
-  <label for="category" class="form-label text-right mr-2 " >Category:</label>
+<div class="form-group p-2" style="background-color:white">
+  <label style=" cursor:pointer;" for="category" class="form-label text-right m-0 " onclick="this.setAttribute('style','color:blue')" >All categories</label>
+  <label style=" cursor:pointer;" for="category" class="form-label text-right m-0" onclick="this.setAttribute('style','color:blue')" >Most Used</label>
   <br/>
   {{-- @foreach($categoryList as $id=>$category)
   <input type="checkbox" name="category" id="category" style="cursor: pointer;" name="featured" id="featured"
@@ -214,16 +219,32 @@
 <label for="featured" class="{{ $subcategoryList->category_id}} displaynone d-none" class="form-check-label">{{ $subcategoryList->subcategory}}</label>
 @endforeach
   @endforeach --}}
-
-  @foreach($subcategoryList as $subcategory)
-  <input type="checkbox" name="category" id="category{{ $subcategory->category_id }}" style="cursor: pointer;" value="{{ $subcategory->category_id }}" onchange="changeCat(this.value, this.nextSibling.textContent)" class="form-check-custom">
-  <label for="category" class="form-check-label">{{ $subcategory->category_name }}</label><br>
-    <input type="checkbox" class="{{ $subcategory->category_id }} displaynone " name="subcategory" id="subcategory" style="cursor: pointer;" value="{{ $subcategory->id }}" class="form-check-custom">
-    <label for="subcategory" class="{{ $subcategory->category_id }} {{ $subcategory->category_name }} displaynone form-check-label">{{ $subcategory->subcategory }}</label></br>
+  <div style=" margin:0;">
+  @foreach($categoryList as $id=> $category)
+  <input type="checkbox" name="category{{$id}}" id="{{ $category }}" style="cursor: pointer;" value="{{ $id }}" onchange="changeCat(this.value, this.id )" class="{{ $id}} form-check-custom makecheck">
+  <label for="category" class="form-check-label"><b>{{ $category }}</b></label><br>
+  @foreach($subcategoryList as $subcategory )
+  @if($subcategory->category_name == $category && $subcategory->subcategory !==null )
+  <div><input type="checkbox" class="{{$category }} displaynone makecheck" name="subcategory{{$subcategory->id}}" id="subcategory{{$subcategory->id}}" style="cursor: pointer;" value="{{ $subcategory->id }}" class="form-check-custom">
+    <label for="subcategory" class="{{$category }}  form-check-label displaynone">{{ $subcategory->subcategory }}</label></div>
+  @endif
+    @endforeach
   @endforeach
-
-  
+</div>
 </div>
 
 </div>
   </div>
+  <style>
+   .number-text {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Other browsers */
+}
+
+/* Optional: additional styling for the specific input fields */
+.number-text::-webkit-inner-spin-button,
+.number-text::-webkit-outer-spin-button {
+  -webkit-appearance: none; /* Webkit browsers */
+  margin: 0; /* Remove default margin */
+}
+    </style>

@@ -29,6 +29,7 @@ class ProductController extends Controller
         $categoryList = adminProductCategory::pluck('category','id')->unique(); // Assuming this returns the list of categories
         $subcategoryList = subCategory::all();
         // Now $idNameList contains only id and name pairs
+
         
         return view('adminpanel/product/productcreate', compact('categoryList','subcategoryList','dataofvariables'));
     }
@@ -165,6 +166,154 @@ class ProductController extends Controller
     }
 
     public function productcreate(Request $request){
+        // dd($request);
+        $valuescat = [];
+        $currentCategory = null;
+        $currentSubcategories = [];
+        
+        foreach ($request->all() as $key => $value) {
+            // Extract category and subcategory number from the key
+            if (preg_match('/^(category|subcategory)(\d+)$/', $key, $matches)) {
+                $type = $matches[1];
+                $index = (int) $matches[2];
+                
+                // If it's a category
+                if ($type === 'category') {
+                    // If not the first category, store the previous category and its subcategories
+                    if ($currentCategory !== null) {
+                        $valuescat[] = [
+                            'category' => $currentCategory,
+                            'subcategories' => $currentSubcategories,
+                        ];
+                        // Reset subcategories for the new category
+                        $currentSubcategories = [];
+                    }
+                    // Update current category
+                    $currentCategory = $value;
+                } else { // If it's a subcategory
+                    // Add subcategory to the current subcategories if there's a current category
+                    if ($currentCategory !== null) {
+                        $currentSubcategories[] = $value;
+                    }
+                }
+            }
+        }
+        
+        // Store the last category and its subcategories
+        if ($currentCategory !== null) {
+            $valuescat[] = [
+                'category' => $currentCategory,
+                'subcategories' => $currentSubcategories,
+            ];
+        }
+        $desiredValues = [];
+
+// Iterate over the request data
+foreach ($request->all() as $key => $value) {
+    // Check if the value starts with a hash symbol (#)
+    if (is_string($value) && strpos($value, '#') === 0) {
+        // Add the value to the desired values array
+        $desiredValues[$key] = $value;
+    }
+}
+$matchingObjects = [];
+
+foreach ($request->all() as $key => $value) {
+    // Check if the key contains any of the desired values
+    foreach ($desiredValues as $desiredKey => $desiredVal) {
+        if (strpos($key, $desiredKey) !== false) {
+            // Remove the desired key from the original key
+            $modifiedKey = str_replace($desiredKey, '', $key);
+
+            // Group the object by the desired key
+            if (!isset($matchingObjects[$desiredKey])) {
+                $matchingObjects[$desiredKey] = (object) [];
+            }
+
+            // Add the matching key-value pair to the object
+            $matchingObjects[$desiredKey]->{$modifiedKey} = $value;
+        }
+    }
+}
+        $maxIndex = null;
+
+for ($i = 0; $i < PHP_INT_MAX; $i++) {
+    $variableName = "attributename" . $i;
+
+    if (isset($request->$variableName)) {
+        $maxIndex = $i;
+    } else {
+        // If the variable doesn't exist, break the loop
+        break;
+    }
+}
+$values = [];
+
+for ($i = 0; $i <= $maxIndex; $i++) {
+    $attributeName = "attributename" . $i;
+    $votppname = "votppname" . $i;
+    $ufvname = "ufvname" . $i;
+    $valuename = "valuename" . $i;
+
+    // Check if all variables exist
+    if (isset($request->$attributeName, $request->$votppname, $request->$ufvname, $request->$valuename)) {
+        // Add values to the array
+        $values[] = [
+            'attributename' => $request->$attributeName,
+            'votppname' => $request->$votppname,
+            'ufvname' => $request->$ufvname,
+            'valuename' => $request->$valuename,
+        ];
+    } else {
+        // Break the loop if any variable is missing
+        break;
+    }
+}
+     
+        $validatedData = $request->validate([
+            'producturl' => 'nullable|url',
+        ]);
+        if($validatedData ){
+
+        }else{
+            return redirect()->route('adminproductpanelcreation')  //Redirect to register route
+             ->with('url', "not a valid url");  //Pass all validation errors
+        };
+        if($request->stockstatus){
+            $stockstatus = "instock";
+        }
+        else if($request->outofstock){
+            $stockstatus = "outofstock";
+        }
+        else if($request->onbackorder){
+            $stockstatus = "onbackorder";
+        }
+        if(
+            $request-> producttype == "Grouped"
+          ){
+            $grouped = $request->xsell;
+          }
+          if($request->password_protected){
+            $visibility_array = ["password protected", $request->passvisible];
+         }
+         else if($request->Public){
+            $visibility_array = ["public"];
+         }
+         else if($request->private){
+            $visibility_array = ["private"];
+         }
+         if($request->SSER){
+            $visibilitycat = "Shop and search results";
+          }
+          else if($request->SO){
+            $visibilitycat = "Shop only";
+          }
+          else if($request->SRO){
+            $visibilitycat = "Search results only";
+          }
+          else if($request->hid){
+            $visibilitycat = "Hidden";
+          }
         $percentage = $request->percentage;
         $disc = $request->discount;
         $actpri = $request->actualPrice;
@@ -176,15 +325,15 @@ class ProductController extends Controller
             return redirect()->route('adminproductpanelcreation')  //Redirect to register route
              ->with('failure', "discount value n percentage cannt be greater than 100");  //Pass all validation errors
         }
-        $inputcategory = $request->category;
-        $inputsubcategory = $request->subcategory;
-        $categoryname = adminProductCategory::where('id',$inputcategory )->value('category');
-        if($inputsubcategory){
-        $subcategoryname = subCategory::where('id',$inputsubcategory)->value('subcategory');}
-        else{
-            $inputsubcategory = 0;
-            $subcategoryname = "";
-        }
+        // $inputcategory = $request->category;
+        // $inputsubcategory = $request->subcategory;
+        // $categoryname = adminProductCategory::where('id',$inputcategory )->value('category');
+        // if($inputsubcategory){
+        // $subcategoryname = subCategory::where('id',$inputsubcategory)->value('subcategory');}
+        // else{
+        //     $inputsubcategory = 0;
+        //     $subcategoryname = "";
+        // }
         $slugValue = $request->slug;
         $slugShouldBeUnique = Product::where('slug',$slugValue )->value('slug');
         if(
@@ -201,17 +350,14 @@ class ProductController extends Controller
                     'product'=>['required','string','max:255'],
                     'slug'=>['required','string','max:255'],
                     'image' => 'required|image|mimes:jpeg,png,gif,jpg|max:2048',
-                    'actualPrice' => ['required','integer','min:1','digits_between:1,1000000'],
-                    'discount' => ['required','integer','min:1','digits_between:1,1000000'],
-                    'sellingPrice' => ['required','integer','min:1','digits_between:1,1000000'],
+                    'actualPrice' => ['','integer','min:1','digits_between:1,1000000'],
                 ]);
         }else{
                 $VALIDATOR= Validator::make($request->all(),[
                     'product'=>['required','string','max:255'],
                     'slug'=>['required','string','max:255'],
                     'actualPrice' => ['required','integer','min:1','digits_between:1,1000000'],
-                    'discount' => ['required','integer','min:1','digits_between:1,1000000'],
-                    'sellingPrice' => ['required','integer','min:1','digits_between:1,1000000'],
+
                 ]);
         }
         
@@ -240,7 +386,7 @@ class ProductController extends Controller
                     $discountedvalue = 0;
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             Storage::disk('local')->put('/public/images/' . $imageName, File::get($image));}
-            $getCat_name = adminProductCategory::find($request -> category)->category;
+            // $getCat_name = adminProductCategory::find($request -> category)->category;
             $data['imagess']=[];
             $images = $request->images;
         if($images!=null){
@@ -250,11 +396,6 @@ class ProductController extends Controller
                 $data['imagess'][]= $imageNames;
             }
         }
-            if($request->productshortdescription){
-                $productshortdescription = $request->productshortdescription;
-            }else{
-                $productshortdescription = "";
-            }
             if($request->description){
                 $description = $request->description;
             }else{
@@ -264,25 +405,81 @@ class ProductController extends Controller
                 return redirect()->route('adminproductpanelcreation')  //Redirect to register route
          ->with('failure', "user not edited as selling price cannot be greter than actual price");
             }
-            $tag = explode(',', $request->tags);
+// Remove square brackets and split the string by commas
+$tagsArray = preg_split('/,/', trim( $request->tags, '[]'));
+
+$resultArray = [];
+
+// Iterate through each element in the tagsArray
+foreach ($tagsArray as $tag) {
+    // Remove the X character from each tag and trim any extra spaces
+    $tagWithoutX = str_replace('✗', '', $tag);
+    $tagWithoutXTrimmed = trim($tagWithoutX);
+
+    // Add the modified tag to resultArray
+    $resultArray[] = $tagWithoutXTrimmed;
+}
+if($request->hrtype&&$request->mintype&&$request->monthtype&&$request->daytype&&$request->yeartype){
+$timestamp = mktime($request->hrtype, $request->mintype, 0, $request->monthtype, $request->daytype, $request->yeartype);}
+else{
+    $timestamp = time();
+}
+
+if($request->producttype =="Variable" && $matchingObjects){
+    $producttype = "Variable";
+}else if($request->producttype =="Variable" && $matchingObjects == []){
+    $producttype = "Simple";
+}else{
+    $producttype = $request->producttype;
+}
             Product::create([
-                'product'=> $request->product,
-                'slug' => $request->slug,
-                'category_id'=> $request->category,
-                'category_name' => $categoryname,
-                'subcategory_id'=> $inputsubcategory,
-                'subcategory_name' => $subcategoryname ,
-                'productshortdescription'=> $productshortdescription,
-                'description'=> $description,
-                'image' => $imageName,
-                'images' => $data['imagess'],
-                'discount'=> $request->discount??0,
+                'product'=> $request->product??"",
+                'slug' => $request->slug??"",
+                'productshortdescription'=> $request->productshortdescription,
+                'description'=> $description??"",
+                'image' => $imageName??"",
+                'images' => $data['imagess']??"",
                 'sellingPrice'=> $request->sellingPrice??0,
                 'actualPrice'=> $request->actualPrice??0,
                 'percentage'=> $request->percentage??0,
-                'tag' => json_encode($tag),
-                'producttype' => $request->producttype,
+                'tag' => json_encode($resultArray)??"",
+                'producttype' => $producttype??"",
+                'preordraft' => $request->clickbutton??"",
+                'virtual'=> $request->virtual??0,
+                'downloadable'=> $request->downloadable??0,
+                'fromdate'=> $request->fromDate??"",
+                'todate'=> $request->toDate??"",
+                'producturl' => $request->producturl??"",
+                'buttontext' => $request->buttontext??"",
+                'sku' => $request->sku??"",
+                'stockmanagement' => $request->stockmanagement??"",
+                'stockstatus' => $stockstatus??"",
+                'soldind' => $request->soldind??"",
+                'initnostock' => $request->initnostock??"",
+                'wtkg' => $request->wtkg??"",
+                'product_dimension_array' =>  [$request->len,$request->width,$request->ht]??"",
+                'productship' =>  $request->productship??"",
+                'upsell'=> $request->upsell??"",
+                'xsell'=> $request->xsell??"",
+                'groupsell'=> $grouped??"",
+                'purchasenote'=>  $request->purchaseNote??"",
+                'menuorder'=>  $request->menuorder??"",
+                'facebooksync'=>  $request->facebooksync??"",
+                'facebookdescription'=>  $request->facebookdescription??"",
+                'usewcimage'=>  $request->usewcimage??0,
+                'customimage'=>  $request->customimage??0,
+                'facebookprice'=>  $request->facebookprice??0,
+                'statustype'=>  $request->clickbutton??"",
+                'visiblity_array'=> $visibility_array ??"",
+                'featured'=>  $request->featured??0,
+                'publishimorcustom_array'=>  [$timestamp]??[],
+                'cat_visibility'=>  $visibilitycat??"immediately",
+                'attributes_array'=>  $values??"",
+                'productvariation_array'=>  $matchingObjects??"",
+                'category_id_subcategory_id_array'=>  $valuescat??"",
+
                   ]);
+                  
                    return redirect()->route('adminproductpanel')
            ->with('success', 'product added successfully!');
             }

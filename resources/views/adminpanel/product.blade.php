@@ -11,10 +11,10 @@
   </div>
 @endif
 <div class="container-fluid">
-  <div class="row" style="height:75vh">
+  <div class="row" style="height:90vh">
   @include("../components/sidebar")
     <div class="col-md-10">
-    <div class="border-bottom px-4 py-2 font-bold text-xl d-flex justify-content-between align-items-center">
+    <div class="border-bottom px-4 py-2 font-bold text-xl d-flex justify-content-between align-items-center" style="width:90vw;">
     <span>Product List</span>
     <div>
         <a href="{{ route('adminproductpanelcreation') }}" >
@@ -24,7 +24,8 @@
     </div>
 </div>
 
-      <div style="overflow-y: auto; height:65vh;"> 
+      <div style="overflow-y: auto; height:65vh; width:90vw;"> 
+        <b id="all" class="ml-2" style="cursor:pointer;">   All</b><b id="published" style="cursor:pointer">   Published</b><b id="draft" class="ml-2" style="cursor:pointer;">   Draft</b>
       <table id="myTable" class="table table-striped ">
         <thead>
           <tr>
@@ -42,7 +43,7 @@
         <tbody >
           @forelse ($dataofuser as $user)
             @if($user->isadmin==0)
-              <tr>
+              <tr class="{{$user->statustype}}">
                 <td><img 
                             src="{{ asset('storage/images/' . $user->image) }}"
                             alt="Example Image"
@@ -55,7 +56,7 @@
                 <img
                             src="{{ asset('storage/images/' . $usim) }}"
                             alt="Example Image"
-                            class="rounded-circle img-thumbnail"
+                            class="rounded-circle img-thumbnail "
                             style="width: 40px; height: 40px;"
                         >
                       @endforeach</td></a>
@@ -63,7 +64,7 @@
                       $tags = json_decode($user->tag);
 
                   @endphp
-                <td>{{ $user->product }}</td>
+                <td>{{ $user->product }} - {{ $user->statustype }}</td>
                 <td>{{ $user->category_name }}</td>
                 <td>{{ $user->subcategory_name }}</td>
                 <td>
@@ -112,3 +113,8 @@
   </div>
 </div>
 @endsection
+
+@push('script')
+<!-- <div id="myChart" style="max-width:700px; height:400px;"></div> -->
+<script src="{{ asset('storage/js/productcreate.js') }}"></script>
+@endpush

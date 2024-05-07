@@ -8,7 +8,7 @@
   font-size: 20px;
   color: #333; 
         "
-            required>
+            >
         <div id="display_on_product_name_change" class="d-none">
             <p style="display:inline-block">
                 <b>Permalink:</b>
@@ -29,13 +29,6 @@
                 <a class="d-none to_view_on_edit_permalink" id="cancel_permalink_manual" href="#">cancel</a>
             </p>
         </div>
-
-
-        @error('product')
-            <div class="invalid-feedback">
-                <strong>{{ $message }}</strong>
-            </div>
-        @enderror
     </div>
     <div class="card mb-1 bg-white">
         <div class="card-header bg-white" style="height:4vh">
@@ -54,33 +47,28 @@
         <div class="card-body bg-white">
             <textarea name="productshortdescription"></textarea>
         </div>
-        @error('slug')
-            <div class="invalid-feedback">
-                <strong>{{ $message }}</strong>
-            </div>
-        @enderror
 
     </div>
 
     <div class="card mb-1 bg-white">
         <div class="card-header bg-white" style="height:4vh">
             <label for="productshortdescription" class="form-label text-right mr-2"><b>Product Data &mdash;</b></label>
-            <select name="producttype" id="producttype" style="width:10vw; cursor:pointer;" required>
+            <select name="producttype" id="producttype" style="width:10vw; cursor:pointer;" >
                 <option value="" class="form-control rounded-md" disabled>Select</option>
                 <option value="Simple"  selected>Simple product</option>
                 <option value="Grouped" >Grouped product</option>
                 <option value="External/Affiliate product" >External/Affiliate product</option>
                 <option value="Variable" >Variable product</option>
             </select>
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline" id="virtual">
                 <label for="shopAndSearchDesktop" class="form-check-label">Virtual:</label>
-                <input type="checkbox" style="cursor: pointer;" name="catalogVisibility" id="shopAndSearchDesktop"
-                    value="shopAndSearch" class="form-check-custom">
+                <input type="checkbox" style="cursor: pointer;" name="virtual" id="virtualinput"
+                    value=1 class="form-check-custom">
             </div>
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline" id="downloadable">
                 <label for="shopAndSearchDesktop" class="form-check-label">Downloadable:</label>
-                <input type="checkbox" style="cursor: pointer;" name="catalogVisibility" id="shopAndSearchDesktop"
-                    value="shopAndSearch" class="form-check-custom">
+                <input type="checkbox" style="cursor: pointer;" name="downloadable" id="downloadableinput"
+                    value=1 class="form-check-custom">
 
             </div>
         </div>
@@ -93,12 +81,12 @@
                         class="mt-2 hiderestnonselectedinventory hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook hiderestnonselectedvariations">
                         <div class="d-none externaldisplaytoshow simpledisplay"><label for="sellingPrice" class="form-label text-right mr-2 "
                             style="margin-right:5.2vw; margin-top:2vh;">Product URL</label>
-                        <input type="text" name="sellingPrice" id="sellingPrice" placeholder="https://{enter external url to product}" style="width:60%;"
+                        <input type="text" name="producturl" id="sellingPrice" placeholder="https://{enter external url to product}" style="width:60%;"
                             class=" px-3 py-1 rounded-md">
                     </div>
                     <div class="d-none externaldisplaytoshow simpledisplay"><label for="sellingPrice" class="form-label text-right mr-2 "
                         style="margin-right:5.8vw; margin-top:2vh;">Button text</label>
-                    <input type="text" name="sellingPrice" id="sellingPrice" placeholder="Buy product{This text will be shown on the button linking to the external product.}" style="width:60%;"
+                    <input type="text" name="buttontext" id="sellingPrice" placeholder="Buy product{This text will be shown on the button linking to the external product.}" style="width:60%;"
                         class=" px-3 py-1 rounded-md">
                 </div>
                         <div>
@@ -124,13 +112,16 @@
                                 href="#">Cancel</a>
 
                         </div>
+                        <div>
+                            
+                        </div>
 
                     </div>
                     <div id="inventoryproduct"
                         class="mt-2 hiderestnonselectedgeneral hiderestnonselectedshipping hiderestnonselectedlinked hiderestnonselectedattributes hiderestnonselectedadvanced hiderestnonselectedfacebook hiderestnonselectedvariations d-none">
                         <div>
                             <label for="sku" class="form-label text-right" style="margin-right:10vw">SKU</label>
-                            <input type="number" name="sku" id="sku" style="width:60%;"
+                            <input type="text" name="sku" id="sku" style="width:60%;"
                                 class=" px-3 py-1 rounded-md">
                         </div>
                         <div class="groupeddisplay externaldisplay simpledisplayshow">
@@ -143,17 +134,17 @@
                         <div class="groupeddisplay externaldisplay vardisplay simpledisplayshow">
                             <label for="stockstatus" class="form-label text-right" style="margin-right:7.4vw">Stock
                                 status</label>
-                            <input type="radio" name="stockstatus" id="stockstatus" class=" px-3 py-1 rounded-md"
+                            <input type="radio" name="stockstatus" id="stockstatus" onclick="handleRadioButtonstockClick(this)" class=" px-3 py-1 rounded-md"
                                 checked>
                             In stock
                         </div>
                         <div class="groupeddisplay externaldisplay externaldisplay vardisplay simpledisplayshow">
                             <label><input type="radio" name="outofstock" id="outofstock"
-                                    class=" px-3 py-1 rounded-md" style="margin-left:11.7vw"> Out of stock</label>
+                                    class=" px-3 py-1 rounded-md" style="margin-left:11.7vw" onclick="handleRadioButtonstockClick(this)"> Out of stock</label>
                         </div>
                         <div class="groupeddisplay externaldisplay vardisplay simpledisplayshow">
                             <label><input type="radio" name="onbackorder" id="onbackorder"
-                                    class=" px-3 py-1 rounded-md" style="margin-top:1vh; margin-left:11.7vw"> On back
+                                    class=" px-3 py-1 rounded-md" style="margin-top:1vh; margin-left:11.7vw" onclick="handleRadioButtonstockClick(this)"> On back
                                 order</label>
                         </div>
                         <div class="groupeddisplay externaldisplay simpledisplayshow">
@@ -167,7 +158,7 @@
                             <label for="initnostock" class="form-label text-right" style="margin-right:4vw">Initial
                                 number in stock</label>
                             <input type="number" name="initnostock" id="initnostock"
-                                style="width:60%; margin-top:1vh;" class=" px-3 py-1 rounded-md">
+                                style="width:60%; margin-top:1vh;" class=" px-3 py-1 rounded-md" min=0>
                         </div>
                     </div>
                     {{-- work starts here for General --}}
@@ -176,22 +167,22 @@
                         <div>
                             <label for="wtkg" class="form-label text-right" style="margin-right:8vw">Weight
                                 (kg)</label>
-                            <input type="number" name="wtkg" id="wtkg" style="width:60.5%;"
+                            <input type="number" name="wtkg" min=0 id="wtkg" style="width:60.5%;"
                                 class=" px-3 py-1 rounded-md">
                         </div>
                         <div>
                             <label for="dim" class="form-label text-right" style="margin-right:6.4vw">Dimensions
                                 (cm)</label>
-                            <input type="number" name="len" id="len" style="width:20%;"
+                            <input type="number" min=0 name="len" id="len" style="width:20%;"
                                 placeholder="Length" class=" px-3 py-1 rounded-md mt-3">
-                            <input type="number" name="width" id="width" style="width:20%;"
+                            <input type="number" min=0 name="width" id="width" style="width:20%;"
                                 placeholder="Width" class=" px-3 py-1 rounded-md">
-                            <input type="number" name="ht" id="ht" style="width:20%;"
+                            <input type="number" min=0 name="ht" id="ht" style="width:20%;"
                                 placeholder="Height" class=" px-3 py-1 rounded-md">
                         </div>
                         <label for="productship" class="form-label text-right" style="margin-right:7.15vw">Shipping
                             class</label>
-                        <select name="productship" id="productship" style="width:33.25vw" class="mt-3 p-2" required>
+                        <select name="productship" id="productship" style="width:33.25vw" class="mt-3 p-2" >
                             <option value="" class="form-control rounded-md">No Shipping Class</option>
                         </select>
                     </div>
@@ -281,7 +272,7 @@
                         </div>
                         <div class="mt-2"><label for="upsell" class="form-label text-right"
                                 style="margin-right:8.6vw; padding-left:0.7vw;">Menu order</label>
-                            <input type="input" name="upsell" id="upsell" style="width:49%;"
+                            <input type="input" name="menuorder" id="upsell" style="width:49%;"
                                 placeholder="0" class="mb-0 rounded-md">
                         </div>
                     </div>
@@ -291,37 +282,37 @@
                         style=" height:30vh;">
                         <label for="productship" class="form-label text-right"
                             style="margin-right:10vw;padding-left:0.7vw;">Facebook sync</label>
-                        <select name="productship" id="productship" style="width:26.75vw" class="mt-3 p-2" required>
+                        <select name="facebooksync" id="productship" style="width:26.75vw" class="mt-3 p-2" >
                             <option value="" class="form-control rounded-md">Sync and show in catalog</option>
                             <option value="" class="form-control rounded-md">Sync and hide in catalog</option>
                             <option value="" class="form-control rounded-md">Do not sync</option>
                         </select>
                         <div class="d-flex container-fluid align-items-center mt-2"><label for="purchaseNote"
                                 class="form-label text-right" style="margin-right:8vw">Facebook Description</label>
-                            <textarea name = "purchaseNote" style="width:50%; height:5vh;" class="rounded "></textarea>
+                            <textarea name = "facebookdescription" style="width:50%; height:5vh;" class="rounded "></textarea>
                         </div>
                         <div class="mt-2">
                             <label for="stockstatus" class="form-label text-right"
                                 style="margin-right:7.4vw;padding-left:0.7vw;">
                                 Facebook Product Image</label>
-                            <input type="radio" name="stockstatus" id="stockstatus" class=" px-3 py-1 rounded-md"
-                                checked>
+                            <input type="radio" name="usewcimage" id="fbwcimage" class=" px-3 py-1 rounded-md"
+                            onclick="handleRadioButtonfbimgClick(this)" checked>
                             Use WC image
                         </div>
                         <div>
-                            <label><input type="radio" name="onbackorder" id="onbackorder"
-                                    class=" px-3 py-1 rounded-md" style="margin-top:1vh; margin-left:16.6vw"> Use
+                            <label><input type="radio" name="customimage" id="fbcustomimage"
+                                    class=" px-3 py-1 rounded-md" style="margin-top:1vh; margin-left:16.6vw" onclick="handleRadioButtonfbimgClick(this)"> Use
                                 custom image</label>
                         </div>
-                        <div class="mt-2"><label for="upsell" class="form-label text-right"
+                        <div id="showonfbcustomimg" class="mt-2 d-none"><label for="upsell" class="form-label text-right"
                                 style="margin-right:8.6vw; padding-left:0.7vw;">Custom Image URL</label>
-                            <input type="text" name="upsell" id="upsell" style="width:49%;"
+                            <input type="text" name="customimageurl" id="upsell" style="width:49%;"
                                 placeholder="Search for a product..." class="mb-0 rounded-md">
                         </div>
 
                         <div class="mt-2"><label for="upsell" class="form-label text-right"
                                 style="margin-right:8.9vw; padding-left:0.7vw;">Facebook Price (₹)</label>
-                            <input type="input" name="upsell" id="upsell" style="width:49%;"
+                            <input type="number" name="facebookprice" id="upsell" style="width:49%;"
                                 placeholder="Search for a product..." class="mb-0 rounded-md">
                         </div>
                     </div>
